@@ -6,15 +6,16 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/template/html/v2"
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 	"log"
 	"os"
 	"os/signal"
 	"syscall"
-	"task_tracker/handler"
-	"task_tracker/repository"
-	"task_tracker/service"
+	"task_tracker/internal/handler"
+	"task_tracker/internal/repository"
+	"task_tracker/internal/service"
 )
 
 var (
@@ -50,7 +51,18 @@ func closeConnection(connect *sqlx.DB) error {
 func main() {
 	flag.Parse()
 	connect()
-	app := fiber.New(fiber.Config{Prefork: false, BodyLimit: 16 * 1024 * 1024})
+	// Create a new engine
+	engine := html.New("./views", ".html")
+
+	// Or from an embedded system
+	// See github.com/gofiber/embed for examples
+	// engine := html.NewFileSystem(http.Dir("./views", ".html"))
+
+	app := fiber.New(fiber.Config{
+		Prefork:   false,
+		BodyLimit: 16 * 1024 * 1024,
+		Views:     engine,
+	})
 	//middlewares
 	app.Use(logger.New(logger.Config{
 		Format: logFormat,
@@ -61,6 +73,7 @@ func main() {
 		AllowCredentials: true,
 		MaxAge:           defaultCorsMaxAge,
 	}))
+	app.Static("/assets", "./assets")
 	rep := repository.NewRepository(Conn)
 	services := service.NewService(rep)
 	service.Services = services

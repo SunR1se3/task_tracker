@@ -2,8 +2,8 @@ package service
 
 import (
 	"github.com/google/uuid"
-	"task_tracker/domain"
-	"task_tracker/repository"
+	"task_tracker/internal/domain"
+	"task_tracker/internal/repository"
 )
 
 var Services *Service

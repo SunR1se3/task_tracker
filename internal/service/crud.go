@@ -1,8 +1,8 @@
 package service
 
 import (
-	"task_tracker/helper"
-	"task_tracker/repository"
+	"task_tracker/internal/helper"
+	"task_tracker/internal/repository"
 )
 
 type CRUDService struct {

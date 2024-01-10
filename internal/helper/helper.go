@@ -3,7 +3,7 @@ package helper
 import (
 	"log"
 	"reflect"
-	"task_tracker/domain"
+	"task_tracker/internal/domain"
 )
 
 type Entities interface {

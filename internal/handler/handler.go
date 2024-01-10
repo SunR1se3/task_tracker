@@ -2,7 +2,7 @@ package handler
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"task_tracker/service"
+	"task_tracker/internal/service"
 )
 
 type Handler struct {
@@ -16,6 +16,10 @@ func NewHandler(services *service.Service) *Handler {
 func (h *Handler) Init(app *fiber.App) {
 	api := app.Group("api")
 
+	viewer := app.Group("view")
+	viewer.Get("/", h.MainPage)
+	viewer.Get("/auth", h.Auth)
+
 	position := api.Group("position")
 	position.Post("/", h.CreatePosition)
 
@@ -27,5 +31,6 @@ func (h *Handler) Init(app *fiber.App) {
 
 	user := api.Group("user")
 	user.Post("/", h.CreateUser)
+	user.Get("/test", h.Test)
 	user.Get("/:id", h.GetUserDTOById)
 }

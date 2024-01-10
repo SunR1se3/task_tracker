@@ -2,7 +2,7 @@ package handler
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"task_tracker/domain"
+	"task_tracker/internal/domain"
 )
 
 func (h *Handler) CreateDepartment(c *fiber.Ctx) error {

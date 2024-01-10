@@ -1,0 +1,10 @@
+.form-bg-color {
+    background: #191c1f;
+}
+
+.square-box {
+    max-height: 800px;
+    min-height: 800px;
+    max-width: 1500px;
+    min-width: 1500px;
+}

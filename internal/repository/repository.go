@@ -3,7 +3,7 @@ package repository
 import (
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
-	"task_tracker/domain"
+	"task_tracker/internal/domain"
 )
 
 type CRUD interface {

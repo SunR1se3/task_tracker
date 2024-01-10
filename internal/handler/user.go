@@ -3,7 +3,7 @@ package handler
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
-	"task_tracker/domain"
+	"task_tracker/internal/domain"
 )
 
 func (h *Handler) CreateUser(c *fiber.Ctx) error {
@@ -28,5 +28,11 @@ func (h *Handler) GetUserDTOById(c *fiber.Ctx) error {
 	return c.JSON(map[string]interface{}{
 		"data": data,
 		"err":  err,
+	})
+}
+
+func (h *Handler) Test(c *fiber.Ctx) error {
+	return c.Render("index", fiber.Map{
+		"Title": "Hello, World!",
 	})
 }

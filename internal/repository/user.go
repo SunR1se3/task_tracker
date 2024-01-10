@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
-	"task_tracker/constants"
-	"task_tracker/domain"
+	"task_tracker/internal/constants"
+	"task_tracker/internal/domain"
 )
 
 type UserRepository struct {

@@ -2,8 +2,8 @@ package handler
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"task_tracker/constants"
-	"task_tracker/domain"
+	"task_tracker/internal/constants"
+	"task_tracker/internal/domain"
 )
 
 func (h *Handler) CreateSpecialization(c *fiber.Ctx) error {
