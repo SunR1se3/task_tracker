@@ -3,6 +3,7 @@ package service
 import (
 	"github.com/google/uuid"
 	"task_tracker/internal/domain"
+	"task_tracker/internal/errors"
 	"task_tracker/internal/repository"
 )
 
@@ -17,6 +18,10 @@ func NewUserService(r repository.User) *UserService {
 func (s *UserService) CreateUser(formData *domain.UserCreateForm) (*uuid.UUID, error) {
 	data := new(domain.User)
 	formData.Prepare(data)
+	exists, _ := s.repo.AlreadyExists(formData.Login)
+	if exists {
+		return nil, errors.UserAlreadyExists()
+	}
 	err := s.repo.CreateUser(data)
 	if err != nil {
 		return nil, err

@@ -62,6 +62,20 @@ func (r *UserRepository) GetUserById(id uuid.UUID) (*domain.User, error) {
 	return data, err
 }
 
+func (r *UserRepository) AlreadyExists(login string) (bool, error) {
+	var data bool
+	sql := fmt.Sprintf("SELECT 1 FROM %s WHERE login = $1", constants.UserTable)
+	err := r.db.Get(&data, sql, login)
+	return data, err
+}
+
+func (r *UserRepository) GetUserByLogin(login string) (*domain.User, error) {
+	data := new(domain.User)
+	sql := fmt.Sprintf("SELECT * FROM %s WHERE login = $1", constants.UserTable)
+	err := r.db.Get(data, sql, login)
+	return data, err
+}
+
 func (r *UserRepository) GetUserDTOById(id uuid.UUID) (*domain.UserDTO, error) {
 	data := new(domain.UserDTO)
 	sql := fmt.Sprintf("SELECT u.id, u.login, u.firstname, u.middlename, u.lastname, u.is_active, u.account_disable_time, u.created_at,"+

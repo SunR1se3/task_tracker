@@ -1,14 +1,14 @@
 <div class="container square-box d-flex justify-content-center align-items-center w-100">
     <div class="container w-25 rounded-3 p-4 shadow-lg form-bg-color">
         <p class="lead text-center"><b>Войти</b></p>
-        <form>
+        <form action="/api/auth" method="post">
             <div class="mb-3">
-                <label for="emailInput" class="form-label">Логин</label>
-                <input type="email" class="form-control" id="emailInput" aria-describedby="emailHelp">
+                <label for="loginInput" class="form-label">Логин</label>
+                <input type="text" class="form-control" id="loginInput" name="login">
             </div>
             <div class="mb-3">
                 <label for="passwordInput" class="form-label">Пароль</label>
-                <input type="password" class="form-control" id="passwordInput">
+                <input type="password" class="form-control" id="passwordInput" name="password">
             </div>
             <button type="submit" class="btn btn-outline-primary">Войти</button>
         </form>

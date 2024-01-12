@@ -32,7 +32,9 @@ func (h *Handler) GetUserDTOById(c *fiber.Ctx) error {
 }
 
 func (h *Handler) Test(c *fiber.Ctx) error {
-	return c.Render("index", fiber.Map{
+	token := c.Cookies("token")
+	c.Set("Authorization", "Bearer "+token)
+	return c.Render("pages/index", fiber.Map{
 		"Title": "Hello, World!",
 	})
 }
