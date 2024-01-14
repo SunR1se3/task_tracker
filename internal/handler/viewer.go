@@ -12,6 +12,6 @@ func (h *Handler) MainPage(c *fiber.Ctx) error {
 	}, "layouts/main")
 }
 
-func (h *Handler) Auth(c *fiber.Ctx) error {
+func (h *Handler) AuthPage(c *fiber.Ctx) error {
 	return c.Render("pages/auth", fiber.Map{}, "layouts/main")
 }

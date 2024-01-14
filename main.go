@@ -25,7 +25,7 @@ var (
 	dbName              = flag.String("dbName", "task_tracker", "database name")
 	dbPort              = flag.String("dbPort", "5432", "database port")
 	defaultAllowOrigins = flag.String("cors", "*", "defaultAllowOrigins value string")
-	appPort             = flag.String("appPort", "3030", "application start port")
+	appPort             = flag.String("appPort", "9999", "application start port")
 
 	Conn              *sqlx.DB
 	logFormat         = "[${time}] ${status} - ${latency} ${method} ${path}\n"
@@ -74,6 +74,7 @@ func main() {
 		MaxAge:           defaultCorsMaxAge,
 	}))
 	app.Static("/assets", "./assets")
+
 	rep := repository.NewRepository(Conn)
 	services := service.NewService(rep)
 	service.Services = services
@@ -81,7 +82,7 @@ func main() {
 	h.Init(app)
 	//start server
 	go func() {
-		if err := app.Listen(":" + *appPort); err != nil {
+		if err := app.Listen("ttracker.test:" + *appPort); err != nil {
 			log.Panicf("не удалось запустить инстанс веб-сервера: %s", err.Error())
 		}
 	}()

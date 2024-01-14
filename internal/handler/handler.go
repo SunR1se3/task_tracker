@@ -2,6 +2,7 @@ package handler
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"task_tracker/internal/middleware"
 	"task_tracker/internal/service"
 )
 
@@ -14,11 +15,13 @@ func NewHandler(services *service.Service) *Handler {
 }
 
 func (h *Handler) Init(app *fiber.App) {
+	aw := middleware.Aw()
+
 	api := app.Group("api")
 
-	viewer := app.Group("view")
-	viewer.Get("/", h.MainPage)
-	viewer.Get("/auth", h.Auth)
+	app.Get("/", h.MainPage)
+	app.Get("/auth", h.AuthPage)
+	app.Get("/main", aw, h.MainPage)
 
 	position := api.Group("position")
 	position.Post("/", h.CreatePosition)
@@ -31,6 +34,9 @@ func (h *Handler) Init(app *fiber.App) {
 
 	user := api.Group("user")
 	user.Post("/", h.CreateUser)
-	user.Get("/test", h.Test)
 	user.Get("/:id", h.GetUserDTOById)
+
+	auth := api.Group("auth")
+	auth.Post("/login", h.Auth)
+	auth.Get("/logout", h.Logout)
 }

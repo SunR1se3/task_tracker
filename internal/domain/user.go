@@ -2,6 +2,7 @@ package domain
 
 import (
 	"github.com/google/uuid"
+	"golang.org/x/crypto/bcrypt"
 	"time"
 )
 
@@ -51,7 +52,11 @@ type UserCreateForm struct {
 func (f *UserCreateForm) Prepare(m *User) {
 	m.Id = uuid.New()
 	m.Login = f.Login
-	m.Password = f.Password
+
+	bytePassword, _ := bcrypt.GenerateFromPassword([]byte(f.Password), bcrypt.DefaultCost)
+	hashPassword := string(bytePassword[:])
+	m.Password = hashPassword
+
 	m.Firstname = f.Firstname
 	m.Middlename = f.Middlename
 	m.Lastname = f.Lastname

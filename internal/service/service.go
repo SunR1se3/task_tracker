@@ -1,6 +1,7 @@
 package service
 
 import (
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
 	"task_tracker/internal/domain"
 	"task_tracker/internal/repository"
@@ -31,12 +32,17 @@ type User interface {
 	GetUserDTOById(id uuid.UUID) (*domain.UserDTO, error)
 }
 
+type Auth interface {
+	Auth(formData *domain.AuthForm) (*jwt.Token, error)
+}
+
 type Service struct {
 	CRUD
 	Department
 	Position
 	Specialization
 	User
+	Auth
 }
 
 func NewService(r *repository.Repository) *Service {
@@ -46,5 +52,6 @@ func NewService(r *repository.Repository) *Service {
 		Department:     NewDepartmentService(r.Department),
 		Specialization: NewSpecializationsService(r.Specialization),
 		User:           NewUserService(r.User),
+		Auth:           NewAuthService(r.User),
 	}
 }

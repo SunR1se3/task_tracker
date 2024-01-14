@@ -30,9 +30,3 @@ func (h *Handler) GetUserDTOById(c *fiber.Ctx) error {
 		"err":  err,
 	})
 }
-
-func (h *Handler) Test(c *fiber.Ctx) error {
-	return c.Render("index", fiber.Map{
-		"Title": "Hello, World!",
-	})
-}

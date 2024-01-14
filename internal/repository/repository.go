@@ -27,6 +27,8 @@ type User interface {
 	CreateUser(data *domain.User) error
 	GetUserById(id uuid.UUID) (*domain.User, error)
 	GetUserDTOById(id uuid.UUID) (*domain.UserDTO, error)
+	AlreadyExists(login string) (bool, error)
+	GetUserByLogin(login string) (*domain.User, error)
 }
 
 type Repository struct {
