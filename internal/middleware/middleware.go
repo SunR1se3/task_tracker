@@ -8,9 +8,9 @@ import (
 // Protected protect routes
 func Aw() func(*fiber.Ctx) error {
 	return jwtware.New(jwtware.Config{
-		SigningKey:   jwtware.SigningKey{Key: []byte("secret")},
 		ErrorHandler: jwtError,
-		TokenLookup:  "header:" + fiber.HeaderAuthorization,
+		SigningKey:   jwtware.SigningKey{Key: []byte("secret")},
+		TokenLookup:  "cookie:token",
 		AuthScheme:   "Bearer",
 	})
 }

@@ -30,11 +30,3 @@ func (h *Handler) GetUserDTOById(c *fiber.Ctx) error {
 		"err":  err,
 	})
 }
-
-func (h *Handler) Test(c *fiber.Ctx) error {
-	token := c.Cookies("token")
-	c.Set("Authorization", "Bearer "+token)
-	return c.Render("pages/index", fiber.Map{
-		"Title": "Hello, World!",
-	})
-}

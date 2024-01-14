@@ -74,6 +74,7 @@ func main() {
 		MaxAge:           defaultCorsMaxAge,
 	}))
 	app.Static("/assets", "./assets")
+
 	rep := repository.NewRepository(Conn)
 	services := service.NewService(rep)
 	service.Services = services

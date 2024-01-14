@@ -15,10 +15,13 @@ func NewHandler(services *service.Service) *Handler {
 }
 
 func (h *Handler) Init(app *fiber.App) {
+	aw := middleware.Aw()
+
 	api := app.Group("api")
 
 	app.Get("/", h.MainPage)
 	app.Get("/auth", h.AuthPage)
+	app.Get("/main", aw, h.MainPage)
 
 	position := api.Group("position")
 	position.Post("/", h.CreatePosition)
@@ -31,9 +34,9 @@ func (h *Handler) Init(app *fiber.App) {
 
 	user := api.Group("user")
 	user.Post("/", h.CreateUser)
-	user.Get("/test", middleware.Aw(), h.Test)
 	user.Get("/:id", h.GetUserDTOById)
 
 	auth := api.Group("auth")
-	auth.Post("/", h.Auth)
+	auth.Post("/login", h.Auth)
+	auth.Get("/logout", h.Logout)
 }
