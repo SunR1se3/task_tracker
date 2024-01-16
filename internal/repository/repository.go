@@ -29,6 +29,7 @@ type User interface {
 	GetUserDTOById(id uuid.UUID) (*domain.UserDTO, error)
 	AlreadyExists(login string) (bool, error)
 	GetUserByLogin(login string) (*domain.User, error)
+	GetUsersDTO() ([]domain.UserDTO, error)
 }
 
 type Repository struct {

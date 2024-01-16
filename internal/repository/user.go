@@ -86,3 +86,12 @@ func (r *UserRepository) GetUserDTOById(id uuid.UUID) (*domain.UserDTO, error) {
 	err := r.db.Get(data, sql, id)
 	return data, err
 }
+
+func (r *UserRepository) GetUsersDTO() ([]domain.UserDTO, error) {
+	data := []domain.UserDTO{}
+	sql := fmt.Sprintf("SELECT u.id, u.login, u.firstname, u.middlename, u.lastname, u.is_active, u.account_disable_time, u.created_at,"+
+		"CASE WHEN system_role = 1 THEN 'ROLE_USER' ELSE 'ROLE_ADMIN' END AS system_role "+
+		"FROM %s u ", constants.UserTable)
+	err := r.db.Select(&data, sql)
+	return data, err
+}

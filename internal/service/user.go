@@ -55,3 +55,28 @@ func (s *UserService) GetUserDTOById(id uuid.UUID) (*domain.UserDTO, error) {
 	user.Specializations = specializations
 	return user, err
 }
+
+func (s *UserService) GetUsersDTO() ([]domain.UserDTO, error) {
+	users, err := s.repo.GetUsersDTO()
+	if err != nil {
+		return nil, err
+	}
+	for i := 0; i < len(users); i++ {
+		positions, err := Services.Position.GetUserPositions(users[i].Id)
+		if err != nil {
+			return nil, err
+		}
+		departments, err := Services.Department.GetUserDepartments(users[i].Id)
+		if err != nil {
+			return nil, err
+		}
+		specializations, err := Services.Specialization.GetUserSpecializations(users[i].Id)
+		if err != nil {
+			return nil, err
+		}
+		users[i].Positions = positions
+		users[i].Departments = departments
+		users[i].Specializations = specializations
+	}
+	return users, err
+}

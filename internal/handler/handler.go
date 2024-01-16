@@ -23,6 +23,9 @@ func (h *Handler) Init(app *fiber.App) {
 	app.Get("/auth", h.AuthPage)
 	app.Get("/main", aw, h.MainPage)
 
+	admin := app.Group("admin")
+	admin.Get("/users", aw, h.AdminUsersPage)
+
 	position := api.Group("position")
 	position.Post("/", h.CreatePosition)
 

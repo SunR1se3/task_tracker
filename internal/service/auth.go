@@ -26,9 +26,12 @@ func (s *AuthService) Auth(formData *domain.AuthForm) (*jwt.Token, error) {
 		return nil, err
 	}
 	claims := jwt.MapClaims{
-		"login": user.Login,
-		"role":  user.SystemRole,
-		"exp":   time.Now().Add(time.Hour * 72).Unix(),
+		"login":      user.Login,
+		"firstname":  user.Firstname,
+		"lastname":   user.Lastname,
+		"middlename": user.Middlename,
+		"role":       user.SystemRole,
+		"exp":        time.Now().Add(time.Hour * 72).Unix(),
 	}
 	return jwt.NewWithClaims(jwt.SigningMethodHS256, claims), err
 

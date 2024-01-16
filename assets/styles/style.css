@@ -2,6 +2,15 @@
     background: #191c1f;
 }
 
+.table-user {
+    margin-left: 5%;
+    max-width: 90%;
+}
+
+.table-user-header-panel {
+    padding-right: 7rem;
+}
+
 .square-box {
     max-height: 800px;
     min-height: 800px;

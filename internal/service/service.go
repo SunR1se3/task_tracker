@@ -30,6 +30,7 @@ type User interface {
 	CreateUser(formData *domain.UserCreateForm) (*uuid.UUID, error)
 	GetUserById(id uuid.UUID) (*domain.User, error)
 	GetUserDTOById(id uuid.UUID) (*domain.UserDTO, error)
+	GetUsersDTO() ([]domain.UserDTO, error)
 }
 
 type Auth interface {

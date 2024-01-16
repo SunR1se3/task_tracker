@@ -52,6 +52,7 @@ func (r *DepartmentRepository) GetUserDepartments(userId uuid.UUID) ([]domain.De
 	sql := fmt.Sprintf("SELECT d.id, d.title, d.created_at FROM %s ud "+
 		"LEFT JOIN departments d ON d.id = ud.department_id "+
 		"WHERE ud.user_id = $1", constants.UserDepartmentTable)
+	fmt.Println(userId)
 	err := r.db.Select(&data, sql, userId)
 	return data, err
 }
