@@ -17,3 +17,7 @@ func NewSpecializationsService(r repository.Specialization) *SpecializationsServ
 func (s *SpecializationsService) GetUserSpecializations(userId uuid.UUID) ([]domain.Specialization, error) {
 	return s.repo.GetUserSpecializations(userId)
 }
+
+func (s *SpecializationsService) GetAll() ([]domain.Specialization, error) {
+	return s.repo.GetAll()
+}

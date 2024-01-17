@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS department_curator (
 CREATE TABLE IF NOT EXISTS users (
     id uuid NOT NULL,
     login VARCHAR(256) NOT NULL,
-    password VARCHAR(256) NOT NULL,
+    password VARCHAR(256) DEFAULT NULL,
     firstname VARCHAR(256) NOT NULL,
     middlename VARCHAR(256) NOT NULL,
     lastname VARCHAR(256) NOT NULL,

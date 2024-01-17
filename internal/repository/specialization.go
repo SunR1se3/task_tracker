@@ -24,3 +24,10 @@ func (r *SpecializationRepository) GetUserSpecializations(userId uuid.UUID) ([]d
 	err := r.db.Select(&data, sql, userId)
 	return data, err
 }
+
+func (r *SpecializationRepository) GetAll() ([]domain.Specialization, error) {
+	data := []domain.Specialization{}
+	sql := fmt.Sprintf("SELECT * FROM %s", constants.SpecializationTable)
+	err := r.db.Select(&data, sql)
+	return data, err
+}

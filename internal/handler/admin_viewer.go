@@ -15,8 +15,23 @@ func (h *Handler) AdminUsersPage(c *fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
+	departments, err := h.services.Department.GetAll()
+	if err != nil {
+		return err
+	}
+	specializations, err := h.services.Specialization.GetAll()
+	if err != nil {
+		return err
+	}
+	positions, err := h.services.Position.GetAll()
+	if err != nil {
+		return err
+	}
 	return c.Render("admin_pages/users_page", fiber.Map{
-		"users":   users,
-		"headers": constants.AdminHeader,
+		"users":           users,
+		"departments":     departments,
+		"specializations": specializations,
+		"positions":       positions,
+		"headers":         constants.AdminHeader,
 	}, "layouts/index")
 }

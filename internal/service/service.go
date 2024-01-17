@@ -11,15 +11,18 @@ var Services *Service
 
 type Position interface {
 	GetUserPositions(userId uuid.UUID) ([]domain.Position, error)
+	GetAll() ([]domain.Position, error)
 }
 
 type Department interface {
 	CreateDepartment(formData *domain.DepartmentCreateForm) (*uuid.UUID, error)
 	GetUserDepartments(userId uuid.UUID) ([]domain.Department, error)
+	GetAll() ([]domain.Department, error)
 }
 
 type Specialization interface {
 	GetUserSpecializations(userId uuid.UUID) ([]domain.Specialization, error)
+	GetAll() ([]domain.Specialization, error)
 }
 
 type CRUD interface {
