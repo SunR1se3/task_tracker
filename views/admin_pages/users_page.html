@@ -1,3 +1,17 @@
+<!-- Контейнер для размещения уведомлений -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5">
+  <!-- Toast контейнер -->
+  <div id="successToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <strong class="me-auto">Успех</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+      Пользователь успешно добавлен.
+    </div>
+  </div>
+</div>
+
 <div class="row">
   <div class="col-sm-auto ms-auto table-user-header-panel">
     <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#userCreateModal">Добавить юзера</button>
@@ -114,6 +128,7 @@
     </div>
   </div>
 </div>
+
 <script src="../../assets/js/admin/loginGenerator.js"></script>
 <script src="../../assets/js/admin/user.js"></script>
 <script>generateLogin();</script>
