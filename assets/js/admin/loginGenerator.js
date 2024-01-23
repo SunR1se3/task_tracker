@@ -1,4 +1,3 @@
-
 function generateLogin() {
     const lastNameInput = document.getElementById('lastname');
     const firstNameInput = document.getElementById('firstname');
@@ -18,12 +17,11 @@ function generateLogin() {
 
 function updateLogin(lastNameInput, firstNameInput, middleNameInput, loginInput) {
     let lastname = translateLiterate(lastNameInput.value);
-    lastname = lastname !== "" ? lastname + " " : "";
     let firstname = translateLiterate(firstNameInput.value.charAt(0));
-    firstname = firstname !== "" ? firstname + ". " : "";
+    firstname = firstname !== "" ? firstname + "." : "";
     let middlename = translateLiterate(middleNameInput.value.charAt(0));
     middlename = middlename !== "" ? middlename + "." : "";
-    loginInput.value = lastname + firstname + middlename;
+    loginInput.value = firstname + middlename + lastname;
 }
 
 function translateLiterate(s) {
