@@ -7,7 +7,7 @@ function auth() {
     xhr.onreadystatechange = function() {
         if (this.readyState === 4) {
             if (this.status === 200) {
-                window.location.href = JSON.parse(xhr.responseText);
+                window.location.href = JSON.parse(xhr.responseText).data;
             } else {
                 document.getElementById('passwordInput').classList.add('is-invalid');
             }
