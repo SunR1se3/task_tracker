@@ -12,15 +12,18 @@ type CRUD interface {
 
 type Position interface {
 	GetUserPositions(userId uuid.UUID) ([]domain.Position, error)
+	GetAll() ([]domain.Position, error)
 }
 
 type Department interface {
 	CreateDepartment(data *domain.Department) error
 	GetUserDepartments(userId uuid.UUID) ([]domain.Department, error)
+	GetAll() ([]domain.Department, error)
 }
 
 type Specialization interface {
 	GetUserSpecializations(userId uuid.UUID) ([]domain.Specialization, error)
+	GetAll() ([]domain.Specialization, error)
 }
 
 type User interface {
@@ -29,6 +32,7 @@ type User interface {
 	GetUserDTOById(id uuid.UUID) (*domain.UserDTO, error)
 	AlreadyExists(login string) (bool, error)
 	GetUserByLogin(login string) (*domain.User, error)
+	GetUsersDTO() ([]domain.UserDTO, error)
 }
 
 type Repository struct {

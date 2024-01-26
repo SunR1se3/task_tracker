@@ -27,3 +27,7 @@ func (s *DepartmentService) CreateDepartment(formData *domain.DepartmentCreateFo
 func (s *DepartmentService) GetUserDepartments(userId uuid.UUID) ([]domain.Department, error) {
 	return s.repo.GetUserDepartments(userId)
 }
+
+func (s *DepartmentService) GetAll() ([]domain.Department, error) {
+	return s.repo.GetAll()
+}

@@ -1,6 +1,8 @@
 package helper
 
 import (
+	"bytes"
+	"html/template"
 	"log"
 	"reflect"
 	"task_tracker/internal/domain"
@@ -25,3 +27,31 @@ func GetEntityData(data any) ([]string, []any) {
 	}
 	return fields, values
 }
+
+func HtmlRenderProcess(templatePath, templateName string, data map[string]interface{}) (*string, error) {
+	var tpl *template.Template
+
+	tpl = template.Must(template.ParseFiles(templatePath))
+
+	buf := new(bytes.Buffer)
+	err := tpl.ExecuteTemplate(buf, templateName, data)
+	if err != nil {
+		return nil, err
+	}
+	html := buf.String()
+	return &html, nil
+}
+
+//func HtmlRenderProcess(templatePath string, data map[string]interface{}) (*string, error) {
+//	// парсим наш шаблон
+//	tmpl := template.Must(template.ParseFiles(templatePath))
+//	// создаём пустой буфер для записи
+//	buf := new(bytes.Buffer)
+//	// рендерим шаблон с данными data в наш буфер buf
+//	err := tmpl.Execute(buf, data)
+//	if err != nil {
+//		return nil, err
+//	}
+//	html := buf.String()
+//	return &html, err
+//}

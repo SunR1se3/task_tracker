@@ -17,3 +17,7 @@ func NewPositionService(r repository.Position) *PositionService {
 func (s *PositionService) GetUserPositions(userId uuid.UUID) ([]domain.Position, error) {
 	return s.repo.GetUserPositions(userId)
 }
+
+func (s *PositionService) GetAll() ([]domain.Position, error) {
+	return s.repo.GetAll()
+}

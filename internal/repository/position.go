@@ -24,3 +24,10 @@ func (r *PositionRepository) GetUserPositions(userId uuid.UUID) ([]domain.Positi
 	err := r.db.Select(&data, sql, userId)
 	return data, err
 }
+
+func (r *PositionRepository) GetAll() ([]domain.Position, error) {
+	data := []domain.Position{}
+	sql := fmt.Sprintf("SELECT * FROM %s", constants.PositionTable)
+	err := r.db.Select(&data, sql)
+	return data, err
+}

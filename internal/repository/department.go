@@ -55,3 +55,10 @@ func (r *DepartmentRepository) GetUserDepartments(userId uuid.UUID) ([]domain.De
 	err := r.db.Select(&data, sql, userId)
 	return data, err
 }
+
+func (r *DepartmentRepository) GetAll() ([]domain.Department, error) {
+	data := []domain.Department{}
+	sql := fmt.Sprintf("SELECT * FROM %s", constants.DepartmentTable)
+	err := r.db.Select(&data, sql)
+	return data, err
+}
