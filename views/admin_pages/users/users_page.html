@@ -1,53 +1,5 @@
-<div class="row">
-    <div class="col-sm-auto ms-auto table-user-header-panel">
-      <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#userCreateModal">Добавить юзера</button>
-    </div>
-</div>
-<table class="table table-user" id="tableUser">
-  <thead>
-  <tr>
-    <th scope="col" data-ident="fio">ФИО</th>
-    <th scope="col" data-ident="login">Логин</th>
-    <th scope="col" data-ident="departments">Отдел</th>
-    <th scope="col" data-ident="positions">Должность</th>
-    <th scope="col" data-ident="specializations">Специализация</th>
-    <th scope="col" data-ident="isActive">Активен</th>
-    <th scope="col" data-ident="systemRole">Системная роль</th>
-    <th scope="col" data-ident="createdAt">Дата создания</th>
-    <th scope="col" data-ident="createdAt">Последняя активность</th>
-    <th scope="col" data-ident="actions">Действия</th>
-  </tr>
-  </thead>
-  <tbody>
-  {{ range .users }}
-    <tr>
-      <td>{{ .Lastname }} {{ .Firstname }} {{ .Middlename }}</td>
-      <td>{{ .Login }}</td>
-      <td>
-        {{ range .Departments }}
-          {{ .Title }}
-        {{ end }}
-      </td>
-      <td>
-        {{ range .Positions }}
-          {{ .Title }}
-        {{ end }}
-      </td>
-      <td>
-        {{ range .Specializations }}
-          {{ .Title }}
-        {{ end }}
-      </td>
-      <td>{{ .IsActive }}</td>
-      <td>{{ .SystemRole }}</td>
-      <td>{{ .CreatedAt.Format "02.01.2006 15:04:05" }}</td>
-      <td>{{ .CreatedAt.Format "02.01.2006 15:04:05" }}</td>
-      <td><a href="{{ .Id }}">Редактировать</a> <a href="#">Удалить</a></td>
-    </tr>
-  {{ end }}
-  </tbody>
-</table>
-
+{{template "table_header" .}}
+{{template "table" .}}
 <!-- Модальное окно -->
 <div class="modal fade bd-example-modal-lg" id="userCreateModal" tabindex="-1" aria-labelledby="userCreateModal" aria-hidden="true">
   <div class="modal-dialog modal-lg">
@@ -86,7 +38,7 @@
             <select class="form-select" aria-label="Отдел" id="departments">
               <option selected></option>
               {{ range .departments }}
-                <option value="{{ .Id }}">{{ .Title }}</option>
+              <option value="{{ .Id }}">{{ .Title }}</option>
               {{ end }}
             </select>
           </div>
@@ -95,7 +47,7 @@
             <select class="form-select" aria-label="Отдел" id="positions">
               <option selected></option>
               {{ range .positions }}
-                <option value="{{ .Id }}">{{ .Title }}</option>
+              <option value="{{ .Id }}">{{ .Title }}</option>
               {{ end }}
             </select>
           </div>
@@ -104,7 +56,7 @@
             <select class="form-select" aria-label="Отдел" id="specializations">
               <option selected></option>
               {{ range .specializations }}
-                <option value="{{ .Id }}">{{ .Title }}</option>
+              <option value="{{ .Id }}">{{ .Title }}</option>
               {{ end }}
             </select>
           </div>
@@ -118,6 +70,6 @@
   </div>
 </div>
 
-<script src="../../assets/js/admin/loginGenerator.js"></script>
-<script src="../../assets/js/admin/user.js"></script>
+<script src="../../../assets/js/admin/loginGenerator.js"></script>
+<script src="../../../assets/js/admin/user.js"></script>
 <script>generateLogin();</script>

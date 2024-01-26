@@ -27,11 +27,21 @@ func (h *Handler) AdminUsersPage(c *fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
-	return c.Render("admin_pages/users_page", fiber.Map{
+	return c.Render("admin_pages/users/users_page", fiber.Map{
 		"users":           users,
 		"departments":     departments,
 		"specializations": specializations,
 		"positions":       positions,
 		"headers":         constants.AdminHeader,
 	}, "layouts/index")
+}
+
+func (h *Handler) UpdateTableUsers(c *fiber.Ctx) error {
+	usersTable, err := h.services.User.AdminUsersTable()
+	if err != nil {
+		return c.JSON(err)
+	}
+	return c.JSON(map[string]interface{}{
+		"data": usersTable,
+	})
 }

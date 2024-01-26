@@ -34,6 +34,7 @@ type User interface {
 	GetUserById(id uuid.UUID) (*domain.User, error)
 	GetUserDTOById(id uuid.UUID) (*domain.UserDTO, error)
 	GetUsersDTO() ([]domain.UserDTO, error)
+	AdminUsersTable() (*string, error)
 }
 
 type Auth interface {
