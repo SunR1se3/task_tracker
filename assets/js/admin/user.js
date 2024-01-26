@@ -20,7 +20,6 @@ function createUser() {
                     alertUserAdd.hidden = true
                 }, 3000)
                 updateTable();
-                // getUserById(JSON.parse(this.responseText).id);
             }
         }
     }
