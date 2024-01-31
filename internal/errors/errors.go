@@ -1,13 +1,18 @@
 package errors
 
 type Error struct {
-	Msg string `json:"msg" xml:"msg" form:"msg"`
+	Code string `json:"code"`
+	Msg  string `json:"msg" xml:"msg" form:"msg"`
 }
 
 func (e Error) Error() string {
-	return e.Msg
+	return e.Code + "|" + e.Msg
 }
 
-func New(msg string) error {
-	return &Error{Msg: msg}
+func New(code, msg string) error {
+	return &Error{Code: code, Msg: msg}
+}
+
+func RequiredFiledError(field string) error {
+	return New(field, "Поле не может быть пустым")
 }

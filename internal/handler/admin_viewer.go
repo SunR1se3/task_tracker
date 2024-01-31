@@ -39,7 +39,6 @@ func (h *Handler) AdminUsersPage(c *fiber.Ctx) error {
 		"departments":     departments,
 		"specializations": specializations,
 		"positions":       positions,
-		"headers":         constants.AdminHeader,
 	}, "admin_pages/users/users_page", constants.DefaultLayout)
 }
 

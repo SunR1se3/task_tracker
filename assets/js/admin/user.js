@@ -13,7 +13,8 @@ function createUser() {
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onreadystatechange = function() {
         if (this.readyState === 4) {
-            if (this.status === 200) {
+            let resp = JSON.parse(xhr.responseText)
+            if (resp.status) {
                 let alertUserAdd = document.getElementById('alertUserAdd')
                 alertUserAdd.hidden = false
                 setTimeout(function() {
@@ -31,7 +32,8 @@ function updateTable() {
     xhr.open("GET", "/admin/users/update_table");
     xhr.onreadystatechange = function() {
         if (this.readyState === 4) {
-            if (this.status === 200) {
+            let resp = JSON.parse(xhr.responseText)
+            if (resp.status) {
                 document.getElementById("tableUser").innerHTML = JSON.parse(this.responseText).data
             }
         }

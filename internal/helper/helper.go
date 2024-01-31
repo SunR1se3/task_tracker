@@ -5,12 +5,7 @@ import (
 	"html/template"
 	"log"
 	"reflect"
-	"task_tracker/internal/domain"
 )
-
-type Entities interface {
-	domain.User | domain.Position | domain.Department
-}
 
 func GetEntityData(data any) ([]string, []any) {
 	var fields []string
@@ -42,16 +37,11 @@ func HtmlRenderProcess(templatePath, templateName string, data map[string]interf
 	return &html, nil
 }
 
-//func HtmlRenderProcess(templatePath string, data map[string]interface{}) (*string, error) {
-//	// парсим наш шаблон
-//	tmpl := template.Must(template.ParseFiles(templatePath))
-//	// создаём пустой буфер для записи
-//	buf := new(bytes.Buffer)
-//	// рендерим шаблон с данными data в наш буфер buf
-//	err := tmpl.Execute(buf, data)
-//	if err != nil {
-//		return nil, err
-//	}
-//	html := buf.String()
-//	return &html, err
-//}
+func GetJsonTag(fieldName string, obj any) string {
+	objType := reflect.TypeOf(obj)
+	field, found := objType.FieldByName(fieldName)
+	if !found {
+		return ""
+	}
+	return field.Tag.Get("json")
+}

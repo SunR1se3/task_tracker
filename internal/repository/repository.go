@@ -33,6 +33,7 @@ type User interface {
 	AlreadyExists(login string) (bool, error)
 	GetUserByLogin(login string) (*domain.User, error)
 	GetUsersDTO() ([]domain.UserDTO, error)
+	ChangePassword(newPassword string, userId *uuid.UUID) error
 }
 
 type Repository struct {

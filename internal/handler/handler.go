@@ -22,6 +22,7 @@ func (h *Handler) Init(app *fiber.App) {
 	app.Get("/", h.MainPage)
 	app.Get("/auth", h.AuthPage)
 	app.Get("/main", aw, h.MainPage)
+	app.Get("/user/profile", aw, h.UserSettingsPage)
 
 	admin := app.Group("admin")
 	admin.Get("/users", aw, h.AdminUsersPage)
@@ -39,6 +40,7 @@ func (h *Handler) Init(app *fiber.App) {
 	user := api.Group("user")
 	user.Post("/", h.CreateUser)
 	user.Get("/:id", h.GetUserDTOById)
+	user.Put("/change_password", aw, h.ChangePassword)
 
 	auth := api.Group("auth")
 	auth.Post("/login", h.Auth)
