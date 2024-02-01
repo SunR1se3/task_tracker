@@ -58,7 +58,7 @@ func (r *UserRepository) CreateUser(data *domain.User) error {
 func (r *UserRepository) GetUserById(id uuid.UUID) (*domain.User, error) {
 	data := new(domain.User)
 	sql := fmt.Sprintf("SELECT * FROM %s WHERE id = $1", constants.UserTable)
-	err := r.db.Get(&data, sql, id)
+	err := r.db.Get(data, sql, id)
 	return data, err
 }
 
@@ -94,4 +94,10 @@ func (r *UserRepository) GetUsersDTO() ([]domain.UserDTO, error) {
 		"FROM %s u ", constants.UserTable)
 	err := r.db.Select(&data, sql)
 	return data, err
+}
+
+func (r *UserRepository) ChangePassword(newPassword string, userId *uuid.UUID) error {
+	sql := fmt.Sprintf("UPDATE %s SET password = $1 WHERE id = $2", constants.UserTable)
+	_, err := r.db.Exec(sql, newPassword, userId)
+	return err
 }

@@ -4,6 +4,7 @@ import (
 	jwtware "github.com/gofiber/contrib/jwt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/google/uuid"
 	"task_tracker/internal/constants"
 )
 
@@ -48,6 +49,21 @@ func GetUserRole(c *fiber.Ctx) int {
 		}
 	}
 	return -1
+}
+
+func GetUserId(c *fiber.Ctx) *uuid.UUID {
+	u := c.Locals("currentUser")
+	if u != nil {
+		claims := u.(*jwt.Token).Claims.(jwt.MapClaims)
+		idStr, ok := claims["id"].(string)
+		if ok {
+			id, err := uuid.Parse(idStr)
+			if err == nil {
+				return &id
+			}
+		}
+	}
+	return nil
 }
 
 func IsGranted(c *fiber.Ctx) bool {

@@ -2,6 +2,7 @@ package service
 
 import (
 	"github.com/google/uuid"
+	"golang.org/x/crypto/bcrypt"
 	"task_tracker/internal/domain"
 	"task_tracker/internal/errors"
 	"task_tracker/internal/helper"
@@ -106,4 +107,27 @@ func (s *UserService) AdminUsersTable() (*string, error) {
 		"specializations": specializations,
 		"positions":       positions,
 	})
+}
+
+func (s *UserService) ChangePassword(formData *domain.ChangePasswordForm, userId *uuid.UUID) []error {
+	var errs []error
+	user, err := s.repo.GetUserById(*userId)
+	if err != nil {
+		errs = append(errs, err)
+		return errs
+	}
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(formData.OldPassword))
+	if err != nil {
+		errs = append(errs, errors.InvalidPassword(helper.GetJsonTag("OldPassword", *formData)))
+		return errs
+	}
+	errs = formData.Prepare()
+	if len(errs) > 0 {
+		return errs
+	}
+	err = s.repo.ChangePassword(formData.NewPassword, userId)
+	if err != nil {
+		errs = append(errs, err)
+	}
+	return errs
 }

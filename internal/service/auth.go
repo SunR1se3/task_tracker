@@ -26,6 +26,7 @@ func (s *AuthService) Auth(formData *domain.AuthForm) (*jwt.Token, error) {
 		return nil, err
 	}
 	claims := jwt.MapClaims{
+		"id":         user.Id,
 		"login":      user.Login,
 		"firstname":  user.Firstname,
 		"lastname":   user.Lastname,

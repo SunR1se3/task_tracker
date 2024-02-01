@@ -35,6 +35,7 @@ type User interface {
 	GetUserDTOById(id uuid.UUID) (*domain.UserDTO, error)
 	GetUsersDTO() ([]domain.UserDTO, error)
 	AdminUsersTable() (*string, error)
+	ChangePassword(formData *domain.ChangePasswordForm, userId *uuid.UUID) []error
 }
 
 type Auth interface {

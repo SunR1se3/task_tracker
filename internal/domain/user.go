@@ -3,6 +3,8 @@ package domain
 import (
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
+	"task_tracker/internal/errors"
+	"task_tracker/internal/helper"
 	"time"
 )
 
@@ -47,6 +49,49 @@ type UserCreateForm struct {
 	Positions       []uuid.UUID `json:"positions" db:"positions"`
 	Departments     []uuid.UUID `json:"departments" db:"departments"`
 	Specializations []uuid.UUID `json:"specializations" db:"specializations"`
+}
+
+type ChangePasswordForm struct {
+	OldPassword         string `json:"oldPassword"`
+	NewPassword         string `json:"newPassword"`
+	RepeatedNewPassword string `json:"repeatedNewPassword"`
+}
+
+func (f *ChangePasswordForm) Prepare() []error {
+	errs := f.Validate()
+	if len(errs) > 0 {
+		return errs
+	}
+	bytePassword, _ := bcrypt.GenerateFromPassword([]byte(f.OldPassword), bcrypt.DefaultCost)
+	hashPassword := string(bytePassword[:])
+	f.OldPassword = hashPassword
+
+	bytePassword, _ = bcrypt.GenerateFromPassword([]byte(f.NewPassword), bcrypt.DefaultCost)
+	hashPassword = string(bytePassword[:])
+	f.NewPassword = hashPassword
+
+	bytePassword, _ = bcrypt.GenerateFromPassword([]byte(f.RepeatedNewPassword), bcrypt.DefaultCost)
+	hashPassword = string(bytePassword[:])
+	f.RepeatedNewPassword = hashPassword
+	return errs
+}
+
+func (f *ChangePasswordForm) Validate() []error {
+	errs := []error{}
+	if f.OldPassword == "" {
+		errs = append(errs, errors.RequiredFiledError(helper.GetJsonTag("OldPassword", *f)))
+	}
+	if f.NewPassword == "" {
+		errs = append(errs, errors.RequiredFiledError(helper.GetJsonTag("NewPassword", *f)))
+	}
+	if f.RepeatedNewPassword == "" {
+		errs = append(errs, errors.RequiredFiledError(helper.GetJsonTag("RepeatedNewPassword", *f)))
+	}
+	if f.NewPassword != f.RepeatedNewPassword {
+		errs = append(errs, errors.NotEqualPassword(helper.GetJsonTag("NewPassword", *f)))
+		errs = append(errs, errors.NotEqualPassword(helper.GetJsonTag("RepeatedNewPassword", *f)))
+	}
+	return errs
 }
 
 func (f *UserCreateForm) Prepare(m *User) {
