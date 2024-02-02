@@ -3,6 +3,7 @@ package handler
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
+	"strconv"
 	"task_tracker/internal/constants"
 	"task_tracker/internal/domain"
 	"task_tracker/internal/errors"
@@ -72,6 +73,26 @@ func (h *Handler) EditUser(c *fiber.Ctx) error {
 		return response.GetResponse(c, errorHandler, nil)
 	}
 	err = h.services.User.EditUser(userId, formData)
+	if err != nil {
+		errorHandler.Add(err)
+		return response.GetResponse(c, errorHandler, nil)
+	}
+	return response.GetResponse(c, errorHandler, nil)
+}
+
+func (h *Handler) DisableUser(c *fiber.Ctx) error {
+	errorHandler := new(errors.ErrorHandler)
+	userId, err := uuid.Parse(c.Params(constants.ParamId))
+	if err != nil {
+		errorHandler.Add(err)
+		return response.GetResponse(c, errorHandler, nil)
+	}
+	disabled, err := strconv.ParseBool(c.Query(constants.QueryDisabledParam))
+	if err != nil {
+		errorHandler.Add(err)
+		return response.GetResponse(c, errorHandler, nil)
+	}
+	err = h.services.User.DisableUser(userId, disabled)
 	if err != nil {
 		errorHandler.Add(err)
 		return response.GetResponse(c, errorHandler, nil)

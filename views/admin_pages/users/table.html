@@ -8,6 +8,7 @@
         <th scope="col" data-ident="positions">Должность</th>
         <th scope="col" data-ident="specializations">Специализация</th>
         <th scope="col" data-ident="isActive">Активен</th>
+        <th scope="col" data-ident="accountDisableTime">Дата отключения</th>
         <th scope="col" data-ident="systemRole">Системная роль</th>
         <th scope="col" data-ident="createdAt">Дата создания</th>
         <th scope="col" data-ident="createdAt">Последняя активность</th>
@@ -34,7 +35,16 @@
             {{ .Title }}
             {{ end }}
         </td>
-        <td>{{ .IsActive }}</td>
+        <td>
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="isActive" data-user-id="{{ .Id }}" {{ if .IsActive }} checked {{ end }} onchange="disableUser(this)" >
+            </div>
+        </td>
+        <td>
+            {{ if .AccountDisableTime }}
+                {{ .AccountDisableTime.Format "02.01.2006 15:04:05"}}
+            {{ end }}
+        </td>
         <td>{{ .SystemRole }}</td>
         <td>{{ .CreatedAt.Format "02.01.2006 15:04:05" }}</td>
         <td>{{ .CreatedAt.Format "02.01.2006 15:04:05" }}</td>

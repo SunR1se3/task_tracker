@@ -38,6 +38,7 @@ type User interface {
 	ChangePassword(formData *domain.ChangePasswordForm, userId *uuid.UUID) []error
 	GetEditUserModalForm(id uuid.UUID) (*string, error)
 	EditUser(id uuid.UUID, formData *domain.UserEditForm) error
+	DisableUser(userId uuid.UUID, disable bool) error
 }
 
 type Auth interface {

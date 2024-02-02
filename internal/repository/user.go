@@ -6,6 +6,7 @@ import (
 	"github.com/jmoiron/sqlx"
 	"task_tracker/internal/constants"
 	"task_tracker/internal/domain"
+	"time"
 )
 
 type UserRepository struct {
@@ -157,5 +158,13 @@ func (r *UserRepository) EditUser(data *domain.User) error {
 		}
 	}
 	err = tx.Commit()
+	return err
+}
+
+func (r *UserRepository) DisableUser(userId uuid.UUID, disable bool) error {
+	sql := fmt.Sprintf("UPDATE %s SET is_active = $1, "+
+		"account_disable_time = CASE WHEN is_active THEN $2::timestamp ELSE null END "+
+		"WHERE id = $3", constants.UserTable)
+	_, err := r.db.Exec(sql, disable, time.Now(), userId)
 	return err
 }
