@@ -27,7 +27,11 @@ func HtmlRenderProcess(templatePath, templateName string, data map[string]interf
 	var tpl *template.Template
 
 	tpl = template.Must(template.ParseFiles(templatePath))
-
+	tpl.Funcs(template.FuncMap{
+		"stringEq": func(s1, s2 string) bool {
+			return s1 == s2
+		},
+	})
 	buf := new(bytes.Buffer)
 	err := tpl.ExecuteTemplate(buf, templateName, data)
 	if err != nil {

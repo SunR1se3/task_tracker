@@ -51,6 +51,17 @@ type UserCreateForm struct {
 	Specializations []uuid.UUID `json:"specializations" db:"specializations"`
 }
 
+type UserEditForm struct {
+	Login           string      `json:"login" db:"login"`
+	Firstname       string      `json:"firstname" db:"firstname"`
+	Middlename      string      `json:"middlename" db:"middlename"`
+	Lastname        string      `json:"lastname" db:"lastname"`
+	SystemRole      int         `json:"systemRole" db:"system_role"`
+	Positions       []uuid.UUID `json:"positions" db:"positions"`
+	Departments     []uuid.UUID `json:"departments" db:"departments"`
+	Specializations []uuid.UUID `json:"specializations" db:"specializations"`
+}
+
 type ChangePasswordForm struct {
 	OldPassword         string `json:"oldPassword"`
 	NewPassword         string `json:"newPassword"`
@@ -111,4 +122,17 @@ func (f *UserCreateForm) Prepare(m *User) {
 	m.Departments = f.Departments
 	m.Specializations = f.Specializations
 	m.CreatedAt = time.Now()
+}
+
+func (f *UserEditForm) Prepare(m *User) {
+	m.Login = f.Login
+	m.Firstname = f.Firstname
+	m.Middlename = f.Middlename
+	m.Lastname = f.Lastname
+	m.SystemRole = f.SystemRole
+	m.Positions = f.Positions
+	m.Departments = f.Departments
+	m.Specializations = f.Specializations
+	t := time.Now()
+	m.UpdatedAt = &t
 }

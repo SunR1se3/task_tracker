@@ -79,9 +79,9 @@ func (r *UserRepository) GetUserByLogin(login string) (*domain.User, error) {
 func (r *UserRepository) GetUserDTOById(id uuid.UUID) (*domain.UserDTO, error) {
 	data := new(domain.UserDTO)
 	sql := fmt.Sprintf("SELECT u.id, u.login, u.firstname, u.middlename, u.lastname, u.is_active, u.account_disable_time, u.created_at,"+
-		"CASE WHEN system_role = 1 THEN 'ROLE_USER' ELSE 'ROLE_ADMIN' END AS system_role "+
+		"CASE WHEN system_role = 1 THEN '%s' ELSE '%s' END AS system_role "+
 		"FROM %s u "+
-		"WHERE u.id = $1", constants.UserTable)
+		"WHERE u.id = $1", constants.SystemRoles[1], constants.SystemRoles[0], constants.UserTable)
 	fmt.Println(id)
 	err := r.db.Get(data, sql, id)
 	return data, err
@@ -90,8 +90,8 @@ func (r *UserRepository) GetUserDTOById(id uuid.UUID) (*domain.UserDTO, error) {
 func (r *UserRepository) GetUsersDTO() ([]domain.UserDTO, error) {
 	data := []domain.UserDTO{}
 	sql := fmt.Sprintf("SELECT u.id, u.login, u.firstname, u.middlename, u.lastname, u.is_active, u.account_disable_time, u.created_at,"+
-		"CASE WHEN system_role = 1 THEN 'ROLE_USER' ELSE 'ROLE_ADMIN' END AS system_role "+
-		"FROM %s u ", constants.UserTable)
+		"CASE WHEN system_role = 1 THEN '%s' ELSE '%s' END AS system_role "+
+		"FROM %s u ", constants.SystemRoles[1], constants.SystemRoles[0], constants.UserTable)
 	err := r.db.Select(&data, sql)
 	return data, err
 }
@@ -99,5 +99,63 @@ func (r *UserRepository) GetUsersDTO() ([]domain.UserDTO, error) {
 func (r *UserRepository) ChangePassword(newPassword string, userId *uuid.UUID) error {
 	sql := fmt.Sprintf("UPDATE %s SET password = $1 WHERE id = $2", constants.UserTable)
 	_, err := r.db.Exec(sql, newPassword, userId)
+	return err
+}
+
+func (r *UserRepository) EditUser(data *domain.User) error {
+	tx, err := r.db.Begin()
+	if err != nil {
+		return err
+	}
+
+	sql := fmt.Sprintf("UPDATE %s SET login = $1, firstname = $2, middlename = $3, lastname = $4, system_role = $5 WHERE id = $6", constants.UserTable)
+	_, err = tx.Exec(sql, data.Login, data.Firstname, data.Middlename, data.Lastname, data.SystemRole, data.Id)
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+	sql = fmt.Sprintf("DELETE FROM %s WHERE user_id = $1", constants.UserPositionTable)
+	_, err = tx.Exec(sql, data.Id)
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+	sql = fmt.Sprintf("DELETE FROM %s WHERE user_id = $1", constants.UserSpecializationTable)
+	_, err = tx.Exec(sql, data.Id)
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+	sql = fmt.Sprintf("DELETE FROM %s WHERE user_id = $1", constants.UserDepartmentTable)
+	_, err = tx.Exec(sql, data.Id)
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+	for _, department := range data.Departments {
+		sql := fmt.Sprintf("INSERT INTO %s(user_id, department_id) VALUES($1, $2)", constants.UserDepartmentTable)
+		_, err := tx.Exec(sql, data.Id, department)
+		if err != nil {
+			tx.Rollback()
+			return err
+		}
+	}
+	for _, position := range data.Positions {
+		sql := fmt.Sprintf("INSERT INTO %s(user_id, position_id) VALUES($1, $2)", constants.UserPositionTable)
+		_, err := tx.Exec(sql, data.Id, position)
+		if err != nil {
+			tx.Rollback()
+			return err
+		}
+	}
+	for _, specialization := range data.Specializations {
+		sql := fmt.Sprintf("INSERT INTO %s(user_id, specialization_id) VALUES($1, $2)", constants.UserSpecializationTable)
+		_, err := tx.Exec(sql, data.Id, specialization)
+		if err != nil {
+			tx.Rollback()
+			return err
+		}
+	}
+	err = tx.Commit()
 	return err
 }

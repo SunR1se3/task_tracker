@@ -3,6 +3,7 @@ package service
 import (
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
+	"task_tracker/internal/constants"
 	"task_tracker/internal/domain"
 	"task_tracker/internal/errors"
 	"task_tracker/internal/helper"
@@ -130,4 +131,40 @@ func (s *UserService) ChangePassword(formData *domain.ChangePasswordForm, userId
 		errs = append(errs, err)
 	}
 	return errs
+}
+
+func (s *UserService) GetEditUserModalForm(id uuid.UUID) (*string, error) {
+	user, err := s.GetUserDTOById(id)
+	if err != nil {
+		return nil, err
+	}
+	departments, err := Services.Department.GetAll()
+	if err != nil {
+		return nil, err
+	}
+	specializations, err := Services.Specialization.GetAll()
+	if err != nil {
+		return nil, err
+	}
+	positions, err := Services.Position.GetAll()
+	if err != nil {
+		return nil, err
+	}
+	return helper.HtmlRenderProcess("./views/admin_pages/users/modal_edit.html", "modal_edit", map[string]interface{}{
+		"user":            user,
+		"departments":     departments,
+		"specializations": specializations,
+		"positions":       positions,
+		"systemRoles":     constants.SystemRoles,
+	})
+}
+
+func (s *UserService) EditUser(id uuid.UUID, formData *domain.UserEditForm) error {
+	data, err := s.GetUserById(id)
+	if err != nil {
+		return err
+	}
+	formData.Prepare(data)
+	err = s.repo.EditUser(data)
+	return err
 }

@@ -1,74 +1,7 @@
 {{template "table_header" .}}
 {{template "table" .}}
-<!-- Модальное окно -->
-<div class="modal fade bd-example-modal-lg" id="userCreateModal" tabindex="-1" aria-labelledby="userCreateModal" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="userCreateModalLabel">Создание пользователя</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
-      </div>
-      <div class="modal-body">
-        <form class="needs-validation" id="userCreateForm" novalidate>
-          <div class="form-group pb-3">
-            <div class="row">
-              <div class="alert alert-success" id="alertUserAdd" hidden role="alert">
-                Пользователь успешно добавлен!
-              </div>
-              <div class="col-sm">
-                <label for="lastname">Фамилия</label>
-                <input type="text" class="form-control" id="lastname" name="lastname">
-              </div>
-              <div class="col-sm">
-                <label for="firstname">Имя</label>
-                <input type="text" class="form-control" id="firstname" name="firstname">
-              </div>
-              <div class="col-sm">
-                <label for="middlename">Отчество</label>
-                <input type="text" class="form-control" id="middlename" name="middlename">
-              </div>
-            </div>
-          </div>
-          <div class="form-group pb-3">
-            <label for="login">Логин</label>
-            <input type="text" class="form-control" id="login" name="login">
-          </div>
-          <div class="form-group pb-3">
-            <label for="departments">Отдел</label>
-            <select class="form-select" aria-label="Отдел" id="departments">
-              <option selected></option>
-              {{ range .departments }}
-              <option value="{{ .Id }}">{{ .Title }}</option>
-              {{ end }}
-            </select>
-          </div>
-          <div class="form-group pb-3">
-            <label for="positions">Должность</label>
-            <select class="form-select" aria-label="Отдел" id="positions">
-              <option selected></option>
-              {{ range .positions }}
-              <option value="{{ .Id }}">{{ .Title }}</option>
-              {{ end }}
-            </select>
-          </div>
-          <div class="form-group pb-3">
-            <label for="specializations">Специализация</label>
-            <select class="form-select" aria-label="Отдел" id="specializations">
-              <option selected></option>
-              {{ range .specializations }}
-              <option value="{{ .Id }}">{{ .Title }}</option>
-              {{ end }}
-            </select>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline-light">Отмена</button>
-        <button type="button" class="btn btn-outline-success" onclick="createUser();">Добавить</button>
-      </div>
-    </div>
-  </div>
-</div>
+{{template "modal_create" .}}
+{{template "modal_edit" .}}
 
 <script src="../../../assets/js/admin/loginGenerator.js"></script>
 <script src="../../../assets/js/admin/user.js"></script>

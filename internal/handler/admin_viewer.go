@@ -2,6 +2,7 @@ package handler
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/google/uuid"
 	"task_tracker/internal/constants"
 	"task_tracker/internal/errors"
 	"task_tracker/internal/middleware"
@@ -39,6 +40,7 @@ func (h *Handler) AdminUsersPage(c *fiber.Ctx) error {
 		"departments":     departments,
 		"specializations": specializations,
 		"positions":       positions,
+		"systemRoles":     constants.SystemRoles,
 	}, "admin_pages/users/users_page", constants.DefaultLayout)
 }
 
@@ -50,4 +52,19 @@ func (h *Handler) UpdateTableUsers(c *fiber.Ctx) error {
 		return response.GetResponse(c, errorHandler, nil)
 	}
 	return response.GetResponse(c, errorHandler, usersTable)
+}
+
+func (h *Handler) GetEditUserModalForm(c *fiber.Ctx) error {
+	errorHandler := new(errors.ErrorHandler)
+	userId, err := uuid.Parse(c.Params(constants.ParamId))
+	if err != nil {
+		errorHandler.Add(err)
+		return response.GetResponse(c, errorHandler, nil)
+	}
+	userEditModalForm, err := h.services.User.GetEditUserModalForm(userId)
+	if err != nil {
+		errorHandler.Add(err)
+		return response.GetResponse(c, errorHandler, nil)
+	}
+	return response.GetResponse(c, errorHandler, userEditModalForm)
 }

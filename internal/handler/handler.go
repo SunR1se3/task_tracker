@@ -2,6 +2,7 @@ package handler
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"task_tracker/internal/constants"
 	"task_tracker/internal/middleware"
 	"task_tracker/internal/service"
 )
@@ -27,6 +28,7 @@ func (h *Handler) Init(app *fiber.App) {
 	admin := app.Group("admin")
 	admin.Get("/users", aw, h.AdminUsersPage)
 	admin.Get("/users/update_table", aw, h.UpdateTableUsers)
+	admin.Get("/users/edit/:"+constants.ParamId, aw, h.GetEditUserModalForm)
 
 	position := api.Group("position")
 	position.Post("/", h.CreatePosition)
@@ -39,8 +41,9 @@ func (h *Handler) Init(app *fiber.App) {
 
 	user := api.Group("user")
 	user.Post("/", h.CreateUser)
-	user.Get("/:id", h.GetUserDTOById)
 	user.Put("/change_password", aw, h.ChangePassword)
+	user.Put("/:"+constants.ParamId, h.EditUser)
+	user.Get("/:id", h.GetUserDTOById)
 
 	auth := api.Group("auth")
 	auth.Post("/login", h.Auth)
