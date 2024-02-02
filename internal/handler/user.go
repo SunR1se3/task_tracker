@@ -3,6 +3,7 @@ package handler
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
+	"task_tracker/internal/constants"
 	"task_tracker/internal/domain"
 	"task_tracker/internal/errors"
 	"task_tracker/internal/middleware"
@@ -52,6 +53,27 @@ func (h *Handler) ChangePassword(c *fiber.Ctx) error {
 	errs := h.services.User.ChangePassword(formData, userId)
 	if len(errs) > 0 {
 		errorHandler.Add(errs...)
+		return response.GetResponse(c, errorHandler, nil)
+	}
+	return response.GetResponse(c, errorHandler, nil)
+}
+
+func (h *Handler) EditUser(c *fiber.Ctx) error {
+	errorHandler := new(errors.ErrorHandler)
+	userId, err := uuid.Parse(c.Params(constants.ParamId))
+	if err != nil {
+		errorHandler.Add(err)
+		return response.GetResponse(c, errorHandler, nil)
+	}
+	formData := new(domain.UserEditForm)
+	err = c.BodyParser(formData)
+	if err != nil {
+		errorHandler.Add(err)
+		return response.GetResponse(c, errorHandler, nil)
+	}
+	err = h.services.User.EditUser(userId, formData)
+	if err != nil {
+		errorHandler.Add(err)
 		return response.GetResponse(c, errorHandler, nil)
 	}
 	return response.GetResponse(c, errorHandler, nil)

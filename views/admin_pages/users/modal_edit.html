@@ -1,0 +1,113 @@
+{{define "modal_edit"}}
+<!-- Модальное окно редактирования пользователя-->
+<div class="modal fade bd-example-modal-lg" id="userEditModal" tabindex="-1" aria-labelledby="userEditModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="userEditModalLabel">Редактирование пользователя</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+            <div class="modal-body">
+                <form class="needs-validation" id="userEditForm" novalidate>
+                    <div class="form-group pb-3">
+                        <div class="row">
+                            <div class="alert alert-success" id="alertUserSave" hidden role="alert">
+                                Готово!
+                            </div>
+                            <div class="col-sm">
+                                <label for="lastnameEdit">Фамилия</label>
+                                <input type="text" class="form-control" id="lastnameEdit" name="lastname" value="{{ if .user.Lastname }}{{ .user.Lastname }}{{ end }}">
+                            </div>
+                            <div class="col-sm">
+                                <label for="firstnameEdit">Имя</label>
+                                <input type="text" class="form-control" id="firstnameEdit" name="firstname" value="{{ if .user.Firstname }}{{ .user.Firstname }}{{ end }}">
+                            </div>
+                            <div class="col-sm">
+                                <label for="middlenameEdit">Отчество</label>
+                                <input type="text" class="form-control" id="middlenameEdit" name="middlename" value="{{ if .user.Middlename }}{{ .user.Middlename }}{{ end }}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group pb-3">
+                        <div class="row">
+                            <div class="col-sm">
+                                <label for="loginEdit">Логин</label>
+                                <input type="text" class="form-control" id="loginEdit" name="login" value="{{ if .user.Login }}{{ .user.Login }}{{ end }}">
+                            </div>
+                            <div class="col-sm">
+                                <label for="systemRoleEdit">Системная роль</label>
+                                <select class="form-select" aria-label="Системная роль" id="systemRoleEdit">
+                                    {{ if .user }}
+                                        {{ range $key, $value := .systemRoles }}
+                                            {{ if (eq (printf "%s" $value) $.user.SystemRole) }}
+                                                <option value="{{ $key }}" selected>{{ $value }}</option>
+                                            {{ else }}
+                                                <option value="{{ $key }}">{{ $value }}</option>
+                                            {{ end }}
+                                        {{ end }}
+                                    {{ end }}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group pb-3">
+                        <label for="departmentsEdit">Отдел</label>
+                        <select class="form-select" aria-label="Отдел" id="departmentsEdit">
+                            <option></option>
+                            {{ $selected := "" }}
+                            {{ range .user.Departments }}
+                                <option value="{{ .Id }}" selected>{{ .Title }}</option>
+                                {{ $selected = printf "%s" .Id }}
+                            {{ end }}
+
+                            {{ range .departments }}
+                                {{ if ne $selected (printf "%s" .Id) }}
+                                    <option value="{{ .Id }}">{{ .Title }}</option>
+                                {{ end }}
+                            {{ end }}
+                        </select>
+                    </div>
+                    <div class="form-group pb-3">
+                        <label for="positionsEdit">Должность</label>
+                        <select class="form-select" aria-label="Отдел" id="positionsEdit">
+                            <option></option>
+                            {{ $selected := "" }}
+                            {{ range .user.Positions }}
+                                <option value="{{ .Id }}" selected>{{ .Title }}</option>
+                                {{ $selected = printf "%s" .Id }}
+                            {{ end }}
+
+                            {{ range .positions }}
+                                {{ if ne $selected (printf "%s" .Id) }}
+                                    <option value="{{ .Id }}">{{ .Title }}</option>
+                                {{ end }}
+                            {{ end }}
+                        </select>
+                    </div>
+                    <div class="form-group pb-3">
+                        <label for="specializationsEdit">Специализация</label>
+                        <select class="form-select" aria-label="Отдел" id="specializationsEdit">
+                            <option></option>
+                            {{ $selected := "" }}
+                            {{ range .user.Specializations }}
+                                <option value="{{ .Id }}" selected>{{ .Title }}</option>
+                                {{ $selected = printf "%s" .Id }}
+                            {{ end }}
+
+                            {{ range .specializations }}
+                                {{ if ne $selected (printf "%s" .Id) }}
+                                    <option value="{{ .Id }}">{{ .Title }}</option>
+                                {{ end }}
+                            {{ end }}
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-light">Отмена</button>
+                <button type="button" class="btn btn-outline-success" onclick="updateUser('{{ if .user.Id }}{{ .user.Id }}{{ end }}');">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</div>
+{{ end }}

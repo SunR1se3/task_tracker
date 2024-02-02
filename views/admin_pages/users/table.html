@@ -38,7 +38,7 @@
         <td>{{ .SystemRole }}</td>
         <td>{{ .CreatedAt.Format "02.01.2006 15:04:05" }}</td>
         <td>{{ .CreatedAt.Format "02.01.2006 15:04:05" }}</td>
-        <td><a href="{{ .Id }}">Редактировать</a> <a href="#">Удалить</a></td>
+        <td><a data-user-id="{{ .Id }}" href="#" onclick="getUserData(this)">Редактировать</a> <a href="#">Удалить</a></td>
     </tr>
     {{ end }}
     </tbody>
