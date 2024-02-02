@@ -35,6 +35,7 @@ type User interface {
 	GetUsersDTO() ([]domain.UserDTO, error)
 	ChangePassword(newPassword string, userId *uuid.UUID) error
 	EditUser(data *domain.User) error
+	DisableUser(userId uuid.UUID, disable bool) error
 }
 
 type Repository struct {

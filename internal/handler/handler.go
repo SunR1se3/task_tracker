@@ -42,6 +42,7 @@ func (h *Handler) Init(app *fiber.App) {
 	user := api.Group("user")
 	user.Post("/", h.CreateUser)
 	user.Put("/change_password", aw, h.ChangePassword)
+	user.Put("/:"+constants.ParamId+"/activation", h.DisableUser)
 	user.Put("/:"+constants.ParamId, h.EditUser)
 	user.Get("/:id", h.GetUserDTOById)
 

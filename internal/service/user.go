@@ -168,3 +168,7 @@ func (s *UserService) EditUser(id uuid.UUID, formData *domain.UserEditForm) erro
 	err = s.repo.EditUser(data)
 	return err
 }
+
+func (s *UserService) DisableUser(userId uuid.UUID, disable bool) error {
+	return s.repo.DisableUser(userId, disable)
+}

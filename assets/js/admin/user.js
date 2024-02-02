@@ -60,6 +60,23 @@ function updateUser(userId) {
     xhr.send(JSON.stringify(jsonObj));
 }
 
+function disableUser(e) {
+    console.log(e);
+    let userId = e.getAttribute('data-user-id');
+    let disable =  e.checked;
+    let xhr = new XMLHttpRequest();
+    xhr.open("PUT", `/api/user/${userId}/activation?disabled=${disable}`);
+    xhr.onreadystatechange = function() {
+        if (this.readyState === 4) {
+            let resp = JSON.parse(xhr.responseText)
+            if (resp.status) {
+                updateTable();
+            }
+        }
+    }
+    xhr.send();
+}
+
 function getUserData(e) {
     // создать объект для формы
     let xhr = new XMLHttpRequest();

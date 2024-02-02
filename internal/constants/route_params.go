@@ -1,5 +1,6 @@
 package constants
 
 const (
-	ParamId = "id"
+	ParamId            = "id"
+	QueryDisabledParam = "disabled"
 )
