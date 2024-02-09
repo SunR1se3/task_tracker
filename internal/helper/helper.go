@@ -2,6 +2,7 @@ package helper
 
 import (
 	"bytes"
+	"github.com/golang-jwt/jwt/v5"
 	"html/template"
 	"log"
 	"reflect"
@@ -48,4 +49,8 @@ func GetJsonTag(fieldName string, obj any) string {
 		return ""
 	}
 	return field.Tag.Get("json")
+}
+
+func GetUserFIO(tokenClaims jwt.MapClaims) (string, string, string) {
+	return tokenClaims["firstname"].(string), tokenClaims["lastname"].(string), tokenClaims["middlename"].(string)
 }
