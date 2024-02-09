@@ -17,3 +17,7 @@ func (h *Handler) AuthPage(c *fiber.Ctx) error {
 func (h *Handler) UserSettingsPage(c *fiber.Ctx) error {
 	return response.RenderPage(c, fiber.Map{}, "pages/user/user_profile", constants.DefaultLayout)
 }
+
+func (h *Handler) ProjectsPages(c *fiber.Ctx) error {
+	return response.RenderPage(c, fiber.Map{}, "pages/project/projects_page", constants.DefaultLayout)
+}

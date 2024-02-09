@@ -1,5 +1,7 @@
 package errors
 
+import "fmt"
+
 type Error struct {
 	Code string `json:"code"`
 	Msg  string `json:"msg" xml:"msg" form:"msg"`
@@ -15,4 +17,8 @@ func New(code, msg string) error {
 
 func RequiredFiledError(field string) error {
 	return New(field, "Поле не может быть пустым")
+}
+
+func MinFieldLengthError(field string, minLength int) error {
+	return New(field, fmt.Sprintf("Поле не может содержать меньше %d символов", minLength))
 }

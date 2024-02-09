@@ -24,6 +24,7 @@ func (h *Handler) Init(app *fiber.App) {
 	app.Get("/auth", h.AuthPage)
 	app.Get("/main", aw, h.MainPage)
 	app.Get("/user/profile", aw, h.UserSettingsPage)
+	app.Get("/projects", aw, h.ProjectsPages)
 
 	admin := app.Group("admin")
 	admin.Get("/users", aw, h.AdminUsersPage)
@@ -45,6 +46,9 @@ func (h *Handler) Init(app *fiber.App) {
 	user.Put("/:"+constants.ParamId+"/activation", h.DisableUser)
 	user.Put("/:"+constants.ParamId, h.EditUser)
 	user.Get("/:id", h.GetUserDTOById)
+
+	project := api.Group("project")
+	project.Post("/", aw, h.CreateProject)
 
 	auth := api.Group("auth")
 	auth.Post("/login", h.Auth)

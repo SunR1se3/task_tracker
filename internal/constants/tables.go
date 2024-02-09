@@ -12,4 +12,6 @@ const (
 	UserDepartmentTable     = "user_department"
 	UserPositionTable       = "user_position"
 	UserSpecializationTable = "user_specialization"
+
+	ProjectTable = "projects"
 )
