@@ -4,6 +4,8 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 	"golang.org/x/crypto/bcrypt"
 	"task_tracker/internal/domain"
+	"task_tracker/internal/errors"
+	"task_tracker/internal/helper"
 	"task_tracker/internal/repository"
 	"time"
 )
@@ -20,6 +22,9 @@ func (s *AuthService) Auth(formData *domain.AuthForm) (*jwt.Token, error) {
 	user, err := s.repo.GetUserByLogin(formData.Login)
 	if err != nil {
 		return nil, err
+	}
+	if !user.IsActive {
+		return nil, errors.InvalidPassword(helper.GetJsonTag("Password", *formData))
 	}
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(formData.Password))
 	if err != nil {
