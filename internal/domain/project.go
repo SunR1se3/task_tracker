@@ -4,13 +4,16 @@ import (
 	"github.com/google/uuid"
 	"task_tracker/internal/errors"
 	"task_tracker/internal/helper"
+	"time"
 )
 
 type Project struct {
-	Id          uuid.UUID `json:"id" db:"id"`
-	Title       string    `json:"title" db:"title"`
-	Description string    `json:"description" db:"description"`
-	Consumer    *string   `json:"consumer" db:"consumer"`
+	Id          uuid.UUID  `json:"id" db:"id"`
+	Title       string     `json:"title" db:"title"`
+	Description string     `json:"description" db:"description"`
+	Consumer    *string    `json:"consumer" db:"consumer"`
+	CreatedAt   time.Time  `json:"createdAt" db:"created_at"`
+	UpdatedAt   *time.Time `json:"updatedAt" db:"updated_at"`
 }
 
 type ProjectCreateForm struct {
@@ -28,6 +31,7 @@ func (f *ProjectCreateForm) Prepare(m *Project) error {
 	m.Title = f.Title
 	m.Description = f.Description
 	m.Consumer = f.Consumer
+	m.CreatedAt = time.Now()
 	return nil
 }
 

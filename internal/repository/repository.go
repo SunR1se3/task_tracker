@@ -39,8 +39,9 @@ type User interface {
 }
 
 type Project interface {
-	CreateProject(data *domain.Project) error
+	CreateProject(data *domain.Project, userId uuid.UUID) error
 	GetProjectById(id uuid.UUID) (*domain.Project, error)
+	GetProjectsUserId(userId uuid.UUID) ([]domain.Project, error)
 }
 
 type Repository struct {

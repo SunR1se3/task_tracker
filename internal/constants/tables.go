@@ -13,5 +13,6 @@ const (
 	UserPositionTable       = "user_position"
 	UserSpecializationTable = "user_specialization"
 
-	ProjectTable = "projects"
+	ProjectTable     = "projects"
+	UserProjectTable = "user_project"
 )

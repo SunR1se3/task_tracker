@@ -46,7 +46,9 @@ type Auth interface {
 }
 
 type Project interface {
-	CreateProject(formData *domain.ProjectCreateForm) (*uuid.UUID, error)
+	CreateProject(formData *domain.ProjectCreateForm, userId uuid.UUID) (*uuid.UUID, error)
+	GetProjectById(id uuid.UUID) (*domain.Project, error)
+	GetProjectsUserId(userId uuid.UUID) ([]domain.Project, error)
 }
 
 type Service struct {

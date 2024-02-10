@@ -7,24 +7,24 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form>
+                <form name="projectCreateForm">
                     <div class="mb-3">
                         <label for="projectTitle" class="form-label">Название</label>
-                        <input type="text" class="form-control" id="projectTitle">
+                        <input type="text" class="form-control" id="projectTitle" name="title">
                     </div>
                     <div class="mb-3">
                         <label for="projectDescription" class="form-label">Описание</label>
-                        <input type="text" class="form-control" id="projectDescription">
+                        <input type="text" class="form-control" id="projectDescription" name="description">
                     </div>
                     <div class="mb-3">
                         <label for="projectConsumer" class="form-label">Заказчик</label>
-                        <input type="text" class="form-control" id="projectConsumer">
+                        <input type="text" class="form-control" id="projectConsumer" name="consumer">
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Отмена</button>
-                <button type="button" class="btn btn-outline-success">Создать</button>
+                <button type="button" class="btn btn-outline-success" onclick="createProject()">Создать</button>
             </div>
         </div>
     </div>

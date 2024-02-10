@@ -49,6 +49,7 @@ func (h *Handler) Init(app *fiber.App) {
 
 	project := api.Group("project")
 	project.Post("/", aw, h.CreateProject)
+	project.Get("/my", aw, h.GetMyProjects)
 
 	auth := api.Group("auth")
 	auth.Post("/login", h.Auth)
