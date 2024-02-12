@@ -38,6 +38,7 @@
 
 .project-card {
     height: 190px;
+    margin-top: 2%;
 }
 
 .project-link .card-body {
@@ -47,4 +48,12 @@
 
 .project-link:hover .card-body {
     background-color: rgba(0, 158, 45, 0.2); /* Замените на ваш цвет подсветки */
+}
+
+.card-container {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 10px;
+    scroll-snap-type: x mandatory;
 }

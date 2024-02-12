@@ -14,6 +14,7 @@ import (
 	"os/signal"
 	"syscall"
 	"task_tracker/internal/handler"
+	"task_tracker/internal/helper"
 	"task_tracker/internal/repository"
 	"task_tracker/internal/service"
 )
@@ -53,6 +54,7 @@ func main() {
 	connect()
 	// Create a new engine
 	engine := html.New("./views", ".html")
+	engine.AddFuncMap(helper.GetFunMap())
 
 	// Or from an embedded system
 	// See github.com/gofiber/embed for examples
