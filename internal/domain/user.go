@@ -89,9 +89,6 @@ func (f *ChangePasswordForm) Prepare() []error {
 
 func (f *ChangePasswordForm) Validate() []error {
 	errs := []error{}
-	if f.OldPassword == "" {
-		errs = append(errs, errors.RequiredFiledError(helper.GetJsonTag("OldPassword", *f)))
-	}
 	if f.NewPassword == "" {
 		errs = append(errs, errors.RequiredFiledError(helper.GetJsonTag("NewPassword", *f)))
 	}
