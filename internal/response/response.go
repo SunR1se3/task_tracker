@@ -41,5 +41,6 @@ func RenderPage(c *fiber.Ctx, data fiber.Map, page, layout string) error {
 		data["headers"] = constants.Headers[role]
 		data["avatarText"] = strings.ToUpper(string(firstnameFl)) + strings.ToUpper(string(lastnameFl))
 	}
+
 	return c.Render(page, data, layout)
 }

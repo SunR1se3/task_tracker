@@ -45,6 +45,12 @@ type Auth interface {
 	Auth(formData *domain.AuthForm) (*jwt.Token, error)
 }
 
+type Project interface {
+	CreateProject(formData *domain.ProjectCreateForm, userId uuid.UUID) (*uuid.UUID, error)
+	GetProjectById(id uuid.UUID) (*domain.Project, error)
+	GetProjectsUserId(userId uuid.UUID) ([]domain.Project, error)
+}
+
 type Service struct {
 	CRUD
 	Department
@@ -52,6 +58,7 @@ type Service struct {
 	Specialization
 	User
 	Auth
+	Project
 }
 
 func NewService(r *repository.Repository) *Service {
@@ -62,5 +69,6 @@ func NewService(r *repository.Repository) *Service {
 		Specialization: NewSpecializationsService(r.Specialization),
 		User:           NewUserService(r.User),
 		Auth:           NewAuthService(r.User),
+		Project:        NewProjectService(r.Project),
 	}
 }

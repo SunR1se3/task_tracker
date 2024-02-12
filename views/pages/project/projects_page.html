@@ -1,0 +1,42 @@
+{{template "modal_project_create" .}}
+<div class="container mt-5">
+    <div class="row">
+        {{ range $index, $value := .projects }}
+            {{ if eq $index 0 }}
+            <div class="col-sm">
+                <a href="" class="project-link" data-bs-toggle="modal" data-bs-target="#createProjectModal">
+                    <div class="card project-card" style="width: 18rem;">
+                        <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                            <img src="../../../assets/buttons/plus-svgrepo-com.svg" alt="" width="70" height="70">
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {{ end }}
+            <div class="col-sm">
+                <div class="card project-card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ $value.Title }}</h5>
+                        <p class="card-text">{{ $value.Description }}</p>
+                        {{ if $value.Consumer }} <p class="card-text">{{ $value.Consumer }}</p> {{ end }}
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+            </div>
+        {{ else }}
+            <div class="row">
+                <div class="col-sm">
+                    <a href="" class="project-link" data-bs-toggle="modal" data-bs-target="#createProjectModal">
+                        <div class="card project-card" style="width: 18rem;">
+                            <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                                <img src="../../../assets/buttons/plus-svgrepo-com.svg" alt="" width="70" height="70">
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        {{ end }}
+    </div>
+</div>
+
+<script src="../../../assets/js/project/project.js"></script>

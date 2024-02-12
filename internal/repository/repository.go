@@ -38,12 +38,19 @@ type User interface {
 	DisableUser(userId uuid.UUID, disable bool) error
 }
 
+type Project interface {
+	CreateProject(data *domain.Project, userId uuid.UUID) error
+	GetProjectById(id uuid.UUID) (*domain.Project, error)
+	GetProjectsUserId(userId uuid.UUID) ([]domain.Project, error)
+}
+
 type Repository struct {
 	CRUD
 	Position
 	Department
 	Specialization
 	User
+	Project
 }
 
 func NewRepository(db *sqlx.DB) *Repository {
@@ -53,5 +60,6 @@ func NewRepository(db *sqlx.DB) *Repository {
 		Department:     NewDepartmentRepository(db),
 		Specialization: NewSpecializationRepository(db),
 		User:           NewUserRepository(db),
+		Project:        NewProjectRepository(db),
 	}
 }

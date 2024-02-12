@@ -35,3 +35,25 @@
     padding-right: 0;
     font-size: 16px;
 }
+
+.project-card {
+    height: 190px;
+    margin-top: 2%;
+}
+
+.project-link .card-body {
+    background-color: transparent; /* Устанавливаем начальный цвет, например, прозрачный */
+    transition: background-color 0.5s ease;
+}
+
+.project-link:hover .card-body {
+    background-color: rgba(0, 158, 45, 0.2); /* Замените на ваш цвет подсветки */
+}
+
+.card-container {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 10px;
+    scroll-snap-type: x mandatory;
+}
