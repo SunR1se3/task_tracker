@@ -22,6 +22,24 @@ type ProjectCreateForm struct {
 	Consumer    *string `json:"consumer"`
 }
 
+type AddUserToTeamForm struct {
+	UserId        *uuid.UUID `json:"userId"`
+	ProjectId     *uuid.UUID `json:"projectId"`
+	ProjectRoleId *uuid.UUID `json:"projectRoleId"`
+}
+
+type ProjectRole struct {
+	Id    uuid.UUID `json:"id" db:"id"`
+	Title string    `json:"title" db:"title"`
+}
+
+type Teammate struct {
+	Id             uuid.UUID    `json:"id" db:"id"`
+	Fio            string       `json:"fio" db:"fio"`
+	Specialization string       `json:"specialization" db:"specialization"`
+	ProjectRole    *ProjectRole `json:"projectRole" db:"projectRole"`
+}
+
 func (f *ProjectCreateForm) Prepare(m *Project) error {
 	err := f.Validate()
 	if err != nil {

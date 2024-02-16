@@ -172,3 +172,7 @@ func (s *UserService) EditUser(id uuid.UUID, formData *domain.UserEditForm) erro
 func (s *UserService) DisableUser(userId uuid.UUID, disable bool) error {
 	return s.repo.DisableUser(userId, disable)
 }
+
+func (s *UserService) UserPicker() ([]domain.UserPicker, error) {
+	return s.repo.UserPicker()
+}

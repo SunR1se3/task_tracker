@@ -39,6 +39,7 @@ type User interface {
 	GetEditUserModalForm(id uuid.UUID) (*string, error)
 	EditUser(id uuid.UUID, formData *domain.UserEditForm) error
 	DisableUser(userId uuid.UUID, disable bool) error
+	UserPicker() ([]domain.UserPicker, error)
 }
 
 type Auth interface {
@@ -49,6 +50,10 @@ type Project interface {
 	CreateProject(formData *domain.ProjectCreateForm, userId uuid.UUID) (*uuid.UUID, error)
 	GetProjectById(id uuid.UUID) (*domain.Project, error)
 	GetProjectsUserId(userId uuid.UUID) ([]domain.Project, error)
+	AddUserToTeam(formData *domain.AddUserToTeamForm) error
+	SetUserProjectRole(formData *domain.AddUserToTeamForm) error
+	GetProjectTeam(projectId uuid.UUID) ([]domain.Teammate, error)
+	GetProjectRoles() []domain.ProjectRole
 }
 
 type Service struct {

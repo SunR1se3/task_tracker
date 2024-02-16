@@ -10,5 +10,12 @@ CREATE TABLE IF NOT EXISTS projects (
 
 CREATE TABLE IF NOT EXISTS user_project (
     user_id uuid NOT NULL,
-    project_id uuid NOT NULL
+    project_id uuid NOT NULL,
+    project_role_id uuid DEFAULT NULL
 );
+
+CREATE TABLE IF NOT EXISTS project_roles (
+    id uuid NOT NULL,
+    title VARCHAR(100) NOT NULL,
+    PRIMARY KEY(id)
+)

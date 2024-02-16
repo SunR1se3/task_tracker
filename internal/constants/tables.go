@@ -15,4 +15,5 @@ const (
 
 	ProjectTable     = "projects"
 	UserProjectTable = "user_project"
+	UserProjectRoles = "project_roles"
 )

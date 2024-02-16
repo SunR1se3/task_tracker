@@ -24,7 +24,8 @@ func (h *Handler) Init(app *fiber.App) {
 	app.Get("/auth", h.AuthPage)
 	app.Get("/main", aw, h.MainPage)
 	app.Get("/user/profile", aw, h.UserSettingsPage)
-	app.Get("/projects", aw, h.ProjectsPages)
+	app.Get("/projects", aw, h.ProjectsPage)
+	app.Get("/projects/:"+constants.ParamId+"/settings", aw, h.ProjectSettingsPage)
 
 	admin := app.Group("admin")
 	admin.Get("/users", aw, h.AdminUsersPage)
@@ -43,6 +44,7 @@ func (h *Handler) Init(app *fiber.App) {
 	user := api.Group("user")
 	user.Post("/", h.CreateUser)
 	user.Put("/change_password", aw, h.ChangePassword)
+	user.Get("/picker", h.UserPicker)
 	user.Put("/:"+constants.ParamId+"/activation", h.DisableUser)
 	user.Put("/:"+constants.ParamId, h.EditUser)
 	user.Get("/:id", h.GetUserDTOById)
@@ -50,6 +52,9 @@ func (h *Handler) Init(app *fiber.App) {
 	project := api.Group("project")
 	project.Post("/", aw, h.CreateProject)
 	project.Get("/my", aw, h.GetMyProjects)
+	project.Get("/:"+constants.ParamId+"/team", aw, h.GetProjectTeam)
+	project.Get("/roles", aw, h.GetProjectRoles)
+	project.Post("/set_role", aw, h.SetUserProjectRole)
 
 	auth := api.Group("auth")
 	auth.Post("/login", h.Auth)
