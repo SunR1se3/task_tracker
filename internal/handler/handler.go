@@ -55,6 +55,7 @@ func (h *Handler) Init(app *fiber.App) {
 	project.Get("/:"+constants.ParamId+"/team", aw, h.GetProjectTeam)
 	project.Get("/roles", aw, h.GetProjectRoles)
 	project.Post("/set_role", aw, h.SetUserProjectRole)
+	project.Post("/add_to_team", aw, h.AddUserToTeam)
 
 	auth := api.Group("auth")
 	auth.Post("/login", h.Auth)

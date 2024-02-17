@@ -44,7 +44,7 @@ type Project interface {
 	GetProjectById(id uuid.UUID) (*domain.Project, error)
 	GetProjectsUserId(userId uuid.UUID) ([]domain.Project, error)
 	AddUserToTeam(userId, projectId uuid.UUID) error
-	SetUserProjectRole(userId, projectId, projectRoleId uuid.UUID) error
+	SetUserProjectRole(userId, projectId, projectRoleId *uuid.UUID) error
 	GetProjectTeam(projectId uuid.UUID) ([]domain.Teammate, error)
 	GetProjectRoleForUser(projectId, userId uuid.UUID) (domain.ProjectRole, error)
 	GetProjectRoles() []domain.ProjectRole

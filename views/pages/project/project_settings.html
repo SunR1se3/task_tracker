@@ -20,7 +20,7 @@
                     </div>
                 </div>
                 <div class="col-sm">
-                    <button type="button" class="btn btn-outline-success">✓</button>
+                    <button type="button" class="btn btn-outline-success" onclick="addUserToTeam()">✓</button>
                     <button type="button" class="btn btn-outline-danger">✕</button>
                 </div>
             </div>
@@ -40,11 +40,15 @@
                             <td>{{ $teammate.Fio }}</td>
                             <td>{{ $teammate.Specialization }}</td>
                             <td>
-                                <select class="form-select form-select-sm" id="projectRole" aria-label=".form-select-sm example" onchange="setProjectRole('{{$teammate.Id}}')">
+                                <select class="form-select form-select-sm" aria-label=".form-select-sm example" onchange="setProjectRole('{{$teammate.Id}}', this)">
                                     <option></option>
                                     {{ range $i, $role := $.projectRoles }}
-                                        {{ if eq $teammate.ProjectRole.Id $role.Id }}
-                                            <option selected value="{{ $role.Id }}">{{ $role.Title }}</option>
+                                        {{ if $teammate.ProjectRole }}
+                                            {{ if eq $teammate.ProjectRole.Id $role.Id }}
+                                                <option selected value="{{ $role.Id }}">{{ $role.Title }}</option>
+                                            {{ else }}
+                                                <option value="{{ $role.Id }}">{{ $role.Title }}</option>
+                                            {{ end }}
                                         {{ else }}
                                             <option value="{{ $role.Id }}">{{ $role.Title }}</option>
                                         {{ end }}

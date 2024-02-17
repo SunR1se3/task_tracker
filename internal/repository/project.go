@@ -60,7 +60,7 @@ func (r *ProjectRepository) AddUserToTeam(userId, projectId uuid.UUID) error {
 	return err
 }
 
-func (r *ProjectRepository) SetUserProjectRole(userId, projectId, projectRoleId uuid.UUID) error {
+func (r *ProjectRepository) SetUserProjectRole(userId, projectId, projectRoleId *uuid.UUID) error {
 	sql := fmt.Sprintf("UPDATE %s SET project_role_id = $3 WHERE user_id = $1 and project_id = $2", constants.UserProjectTable)
 	_, err := r.db.Exec(sql, userId, projectId, projectRoleId)
 	return err

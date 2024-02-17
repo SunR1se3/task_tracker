@@ -55,10 +55,10 @@ func (f *ProjectCreateForm) Prepare(m *Project) error {
 
 func (f *ProjectCreateForm) Validate() error {
 	if len(f.Title) < 2 {
-		return errors.MinFieldLengthError(helper.GetJsonTag("Title", f), 2)
+		return errors.MinFieldLengthError(helper.GetJsonTag("Title", *f), 2)
 	}
 	if len(f.Description) < 2 {
-		return errors.MinFieldLengthError(helper.GetJsonTag("Title", f), 2)
+		return errors.MinFieldLengthError(helper.GetJsonTag("Title", *f), 2)
 	}
 	return nil
 }

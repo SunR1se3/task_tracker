@@ -41,7 +41,7 @@ func (s *ProjectService) AddUserToTeam(formData *domain.AddUserToTeamForm) error
 }
 
 func (s *ProjectService) SetUserProjectRole(formData *domain.AddUserToTeamForm) error {
-	return s.repo.SetUserProjectRole(*formData.UserId, *formData.ProjectId, *formData.ProjectRoleId)
+	return s.repo.SetUserProjectRole(formData.UserId, formData.ProjectId, formData.ProjectRoleId)
 }
 
 func (s *ProjectService) GetProjectTeam(projectId uuid.UUID) ([]domain.Teammate, error) {
