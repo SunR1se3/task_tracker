@@ -90,3 +90,19 @@ func (h *Handler) GetProjectTeam(c *fiber.Ctx) error {
 	}
 	return response.GetResponse(c, errorHandler, data)
 }
+
+func (h *Handler) KickUserFromTeam(c *fiber.Ctx) error {
+	errorHandler := new(errors.ErrorHandler)
+	formData := new(domain.AddUserToTeamForm)
+	err := c.BodyParser(formData)
+	if err != nil {
+		errorHandler.Add(err)
+		return response.GetResponse(c, errorHandler, nil)
+	}
+	err = h.services.Project.KickUserFromTeam(formData)
+	if err != nil {
+		errorHandler.Add(err)
+		return response.GetResponse(c, errorHandler, nil)
+	}
+	return response.GetResponse(c, errorHandler, nil)
+}

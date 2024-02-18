@@ -12,6 +12,7 @@ type Project struct {
 	Title       string     `json:"title" db:"title"`
 	Description string     `json:"description" db:"description"`
 	Consumer    *string    `json:"consumer" db:"consumer"`
+	Owner       uuid.UUID  `json:"owner"`
 	CreatedAt   time.Time  `json:"createdAt" db:"created_at"`
 	UpdatedAt   *time.Time `json:"updatedAt" db:"updated_at"`
 }

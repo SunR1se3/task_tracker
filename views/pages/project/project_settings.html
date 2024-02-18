@@ -20,8 +20,8 @@
                     </div>
                 </div>
                 <div class="col-sm">
-                    <button type="button" class="btn btn-outline-success" onclick="addUserToTeam()">✓</button>
-                    <button type="button" class="btn btn-outline-danger">✕</button>
+                    <button type="button" class="btn btn-outline-success" id="addBtn" onclick="addUserToTeam()" style="visibility: hidden;">✓</button>
+                    <button type="button" class="btn btn-outline-danger" id="clearBtn">✕</button>
                 </div>
             </div>
             <div class="d-flex justify-content-center">
@@ -55,7 +55,11 @@
                                     {{ end }}
                                 </select>
                             </td>
-                            <td>Удалить</td>
+                            <td>
+                                {{ if ne $.project.Owner $teammate.Id }}
+                                    <a href="#" onclick="kickUserFromTeam('{{$teammate.Id}}')">Удалить</a>
+                                {{ end }}
+                            </td>
                         </tr>
                     {{ end }}
                     </tbody>

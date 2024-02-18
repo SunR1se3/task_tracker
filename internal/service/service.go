@@ -54,6 +54,7 @@ type Project interface {
 	SetUserProjectRole(formData *domain.AddUserToTeamForm) error
 	GetProjectTeam(projectId uuid.UUID) ([]domain.Teammate, error)
 	GetProjectRoles() []domain.ProjectRole
+	KickUserFromTeam(formData *domain.AddUserToTeamForm) error
 }
 
 type Service struct {

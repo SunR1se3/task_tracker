@@ -31,7 +31,10 @@ function projectAutocomplete(data) {
 
             suggestionsMenu.appendChild(listItem);
         });
-
+        if (autocompleteInput.value === "") {
+            autocompleteInput.removeAttribute('data-selected-id');
+        }
+        addButtons(autocompleteInput)
         suggestionsMenu.style.display = suggestions.length > 0 ? 'block' : 'none';
     });
 
@@ -56,4 +59,18 @@ function initUserPicker() {
         }
     }
     xhr.send();
+}
+
+function addButtons(autocomplete) {
+    let addBtn = document.getElementById('addBtn');
+    let clearBtn = document.getElementById('clearBtn');
+    console.log(autocomplete.hasAttribute('data-selected-id'));
+    // Если поле не пустое и кнопка скрыта, показываем кнопку
+    if (autocomplete.hasAttribute('data-selected-id') && addBtn.style.visibility === 'hidden') {
+        addBtn.style.visibility = 'visible';
+    }
+    // Если поле пустое и кнопка видима, скрываем кнопку
+    else if (!autocomplete.hasAttribute('data-selected-id') && addBtn.style.visibility === 'visible') {
+        addBtn.style.visibility = 'hidden';
+    }
 }

@@ -48,6 +48,7 @@ type Project interface {
 	GetProjectTeam(projectId uuid.UUID) ([]domain.Teammate, error)
 	GetProjectRoleForUser(projectId, userId uuid.UUID) (domain.ProjectRole, error)
 	GetProjectRoles() []domain.ProjectRole
+	KickUserFromTeam(userId, projectId uuid.UUID) error
 }
 
 type Repository struct {

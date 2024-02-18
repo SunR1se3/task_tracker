@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS projects (
     title VARCHAR(500) NOT NULL,
     description VARCHAR(500) NOT NULL,
     consumer VARCHAR(500) DEFAULT NULL,
+    owner uuid NOT NULL,
     created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL,
     updated_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL,
     PRIMARY KEY(id)

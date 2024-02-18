@@ -65,3 +65,7 @@ func (s *ProjectService) GetProjectTeam(projectId uuid.UUID) ([]domain.Teammate,
 func (s *ProjectService) GetProjectRoles() []domain.ProjectRole {
 	return s.repo.GetProjectRoles()
 }
+
+func (s *ProjectService) KickUserFromTeam(formData *domain.AddUserToTeamForm) error {
+	return s.repo.KickUserFromTeam(*formData.UserId, *formData.ProjectId)
+}

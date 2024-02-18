@@ -21,8 +21,8 @@ func (r *ProjectRepository) CreateProject(data *domain.Project, userId uuid.UUID
 	if err != nil {
 		return err
 	}
-	sql := fmt.Sprintf("INSERT INTO %s(id, title, description, consumer, created_at) VALUES($1, $2, $3, $4, $5)", constants.ProjectTable)
-	_, err = tx.Exec(sql, data.Id, data.Title, data.Description, data.Consumer, data.CreatedAt)
+	sql := fmt.Sprintf("INSERT INTO %s(id, title, description, consumer, owner, created_at) VALUES($1, $2, $3, $4, $5, $6)", constants.ProjectTable)
+	_, err = tx.Exec(sql, data.Id, data.Title, data.Description, data.Consumer, userId, data.CreatedAt)
 	if err != nil {
 		tx.Rollback()
 		return err
@@ -98,4 +98,10 @@ func (r *ProjectRepository) GetProjectRoles() []domain.ProjectRole {
 	sql := fmt.Sprintf("SELECT * FROM %s", constants.UserProjectRoles)
 	_ = r.db.Select(&data, sql)
 	return data
+}
+
+func (r *ProjectRepository) KickUserFromTeam(userId, projectId uuid.UUID) error {
+	sql := fmt.Sprintf("DELETE FROM %s WHERE user_id = $1 and project_id = $2", constants.UserProjectTable)
+	_, err := r.db.Exec(sql, userId, projectId)
+	return err
 }

@@ -26,11 +26,8 @@ function setProjectRole(userId, select) {
     if (projectRole !== "") {
         jsonObj['projectRoleId'] = projectRole;
     }
-
-    console.log(jsonObj);
-    console.log(document.getElementById('projectContent'));
     let xhr = new XMLHttpRequest();
-    xhr.open("POST", "/api/project/set_role");
+    xhr.open("PUT", "/api/project/set_role");
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onreadystatechange = function() {
         if (this.readyState === 4) {
@@ -52,6 +49,26 @@ function addUserToTeam() {
 
     let xhr = new XMLHttpRequest();
     xhr.open("POST", "/api/project/add_to_team");
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onreadystatechange = function() {
+        if (this.readyState === 4) {
+            let resp = JSON.parse(xhr.responseText)
+            if (resp.status) {
+            }
+        }
+    }
+    xhr.send(JSON.stringify(jsonObj));
+}
+
+function kickUserFromTeam(userId) {
+    let projectId = document.getElementById('projectContent').dataset.projectId
+    let jsonObj = {
+        "userId": userId,
+        "projectId": projectId
+    }
+
+    let xhr = new XMLHttpRequest();
+    xhr.open("PUT", "/api/project/kick_from_team");
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onreadystatechange = function() {
         if (this.readyState === 4) {

@@ -29,6 +29,7 @@ func (h *Handler) ProjectsPage(c *fiber.Ctx) error {
 	}
 	return response.RenderPage(c, fiber.Map{
 		"projects": projects,
+		"userId":   *userId,
 	}, "pages/project/projects_page", constants.DefaultLayout)
 }
 
