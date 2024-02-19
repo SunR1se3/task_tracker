@@ -27,14 +27,15 @@ function projectAutocomplete(data) {
                 autocompleteInput.value = suggestion.fio;
                 autocompleteInput.dataset.selectedId = suggestion.id
                 suggestionsMenu.innerHTML = '';
+                setVisibilityAddButton();
             });
-
             suggestionsMenu.appendChild(listItem);
         });
         if (autocompleteInput.value === "") {
             autocompleteInput.removeAttribute('data-selected-id');
+            setVisibilityAddButton();
         }
-        addButtons(autocompleteInput)
+        setVisibilityClearButton();
         suggestionsMenu.style.display = suggestions.length > 0 ? 'block' : 'none';
     });
 
@@ -61,16 +62,33 @@ function initUserPicker() {
     xhr.send();
 }
 
-function addButtons(autocomplete) {
+function setVisibilityAddButton() {
+    let autocomplete = document.getElementById('autocompleteInput');
     let addBtn = document.getElementById('addBtn');
+
+    if (autocomplete.hasAttribute('data-selected-id') && addBtn.style.display === 'none') {
+        addBtn.style.display = 'block';
+    }
+
+    else if (!autocomplete.hasAttribute('data-selected-id') && addBtn.style.display === 'block') {
+        addBtn.style.display = 'none';
+    }
+}
+
+function setVisibilityClearButton() {
+    let autocomplete = document.getElementById('autocompleteInput');
     let clearBtn = document.getElementById('clearBtn');
-    console.log(autocomplete.hasAttribute('data-selected-id'));
-    // Если поле не пустое и кнопка скрыта, показываем кнопку
-    if (autocomplete.hasAttribute('data-selected-id') && addBtn.style.visibility === 'hidden') {
-        addBtn.style.visibility = 'visible';
+    if (autocomplete.value !== "") {
+        clearBtn.style.display = 'block';
+    } else {
+        clearBtn.style.display = 'none';
     }
-    // Если поле пустое и кнопка видима, скрываем кнопку
-    else if (!autocomplete.hasAttribute('data-selected-id') && addBtn.style.visibility === 'visible') {
-        addBtn.style.visibility = 'hidden';
-    }
+}
+
+function clearInput() {
+    let autocomplete = document.getElementById('autocompleteInput');
+    autocomplete.value = "";
+    autocomplete.removeAttribute('data-selected-id');
+    setVisibilityClearButton();
+    setVisibilityAddButton();
 }
