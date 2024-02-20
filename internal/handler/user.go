@@ -99,3 +99,13 @@ func (h *Handler) DisableUser(c *fiber.Ctx) error {
 	}
 	return response.GetResponse(c, errorHandler, nil)
 }
+
+func (h *Handler) UserPicker(c *fiber.Ctx) error {
+	errorHandler := new(errors.ErrorHandler)
+	data, err := h.services.User.UserPicker()
+	if err != nil {
+		errorHandler.Add(err)
+		return response.GetResponse(c, errorHandler, nil)
+	}
+	return response.GetResponse(c, errorHandler, data)
+}

@@ -68,6 +68,11 @@ type ChangePasswordForm struct {
 	RepeatedNewPassword string `json:"repeatedNewPassword"`
 }
 
+type UserPicker struct {
+	Id  uuid.UUID `json:"id" db:"id"`
+	Fio string    `json:"fio" db:"fio"`
+}
+
 func (f *ChangePasswordForm) Prepare() []error {
 	errs := f.Validate()
 	if len(errs) > 0 {

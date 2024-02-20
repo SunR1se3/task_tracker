@@ -61,7 +61,6 @@ function updateUser(userId) {
 }
 
 function disableUser(e) {
-    console.log(e);
     let userId = e.getAttribute('data-user-id');
     let disable =  e.checked;
     let xhr = new XMLHttpRequest();

@@ -168,3 +168,10 @@ func (r *UserRepository) DisableUser(userId uuid.UUID, disable bool) error {
 	_, err := r.db.Exec(sql, disable, time.Now(), userId)
 	return err
 }
+
+func (r *UserRepository) UserPicker() ([]domain.UserPicker, error) {
+	data := []domain.UserPicker{}
+	sql := fmt.Sprintf("SELECT id, concat_ws(' ', lastname, firstname, middlename) AS fio FROM %s WHERE system_role != 0", constants.UserTable)
+	err := r.db.Select(&data, sql)
+	return data, err
+}

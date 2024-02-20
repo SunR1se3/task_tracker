@@ -36,12 +36,20 @@ type User interface {
 	ChangePassword(newPassword string, userId *uuid.UUID) error
 	EditUser(data *domain.User) error
 	DisableUser(userId uuid.UUID, disable bool) error
+	UserPicker() ([]domain.UserPicker, error)
 }
 
 type Project interface {
 	CreateProject(data *domain.Project, userId uuid.UUID) error
+	EditProject(data *domain.Project) error
 	GetProjectById(id uuid.UUID) (*domain.Project, error)
 	GetProjectsUserId(userId uuid.UUID) ([]domain.Project, error)
+	AddUserToTeam(userId, projectId uuid.UUID) error
+	SetUserProjectRole(userId, projectId, projectRoleId *uuid.UUID) error
+	GetProjectTeam(projectId uuid.UUID) ([]domain.Teammate, error)
+	GetProjectRoleForUser(projectId, userId uuid.UUID) (domain.ProjectRole, error)
+	GetProjectRoles() []domain.ProjectRole
+	KickUserFromTeam(userId, projectId uuid.UUID) error
 }
 
 type Repository struct {

@@ -56,7 +56,7 @@ func main() {
 	engine := html.New("./views", ".html")
 	engine.AddFuncMap(helper.GetFunMap())
 
-	// Or from an embedded system
+	// Or from an embedded libs
 	// See github.com/gofiber/embed for examples
 	// engine := html.NewFileSystem(http.Dir("./views", ".html"))
 

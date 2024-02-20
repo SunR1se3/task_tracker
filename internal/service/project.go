@@ -2,6 +2,7 @@ package service
 
 import (
 	"github.com/google/uuid"
+	"strings"
 	"task_tracker/internal/domain"
 	"task_tracker/internal/repository"
 )
@@ -33,4 +34,49 @@ func (s *ProjectService) GetProjectById(id uuid.UUID) (*domain.Project, error) {
 
 func (s *ProjectService) GetProjectsUserId(userId uuid.UUID) ([]domain.Project, error) {
 	return s.repo.GetProjectsUserId(userId)
+}
+
+func (s *ProjectService) AddUserToTeam(formData *domain.AddUserToTeamForm) error {
+	return s.repo.AddUserToTeam(*formData.UserId, *formData.ProjectId)
+}
+
+func (s *ProjectService) SetUserProjectRole(formData *domain.AddUserToTeamForm) error {
+	return s.repo.SetUserProjectRole(formData.UserId, formData.ProjectId, formData.ProjectRoleId)
+}
+
+func (s *ProjectService) GetProjectTeam(projectId uuid.UUID) ([]domain.Teammate, error) {
+	team, err := s.repo.GetProjectTeam(projectId)
+	if err != nil {
+		return nil, err
+	}
+	for i, teammate := range team {
+		projectRole, err := s.repo.GetProjectRoleForUser(projectId, teammate.Id)
+		if err != nil {
+			if !strings.Contains(err.Error(), "no rows") {
+				return nil, err
+			}
+			continue
+		}
+		team[i].ProjectRole = &projectRole
+	}
+	return team, nil
+}
+
+func (s *ProjectService) GetProjectRoles() []domain.ProjectRole {
+	return s.repo.GetProjectRoles()
+}
+
+func (s *ProjectService) KickUserFromTeam(formData *domain.AddUserToTeamForm) error {
+	return s.repo.KickUserFromTeam(*formData.UserId, *formData.ProjectId)
+}
+
+func (s *ProjectService) EditProject(formData *domain.ProjectEditForm, id uuid.UUID) error {
+	data := new(domain.Project)
+	err := formData.Prepare(data)
+	if err != nil {
+		return err
+	}
+	data.Id = id
+	err = s.repo.EditProject(data)
+	return err
 }
