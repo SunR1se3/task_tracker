@@ -41,6 +41,7 @@ type User interface {
 
 type Project interface {
 	CreateProject(data *domain.Project, userId uuid.UUID) error
+	EditProject(data *domain.Project) error
 	GetProjectById(id uuid.UUID) (*domain.Project, error)
 	GetProjectsUserId(userId uuid.UUID) ([]domain.Project, error)
 	AddUserToTeam(userId, projectId uuid.UUID) error

@@ -51,6 +51,7 @@ func (h *Handler) Init(app *fiber.App) {
 
 	project := api.Group("project")
 	project.Post("/", aw, h.CreateProject)
+	project.Put("/:"+constants.ParamId+"/edit", aw, h.EditProject)
 	project.Get("/my", aw, h.GetMyProjects)
 	project.Get("/:"+constants.ParamId+"/team", aw, h.GetProjectTeam)
 	project.Get("/roles", aw, h.GetProjectRoles)

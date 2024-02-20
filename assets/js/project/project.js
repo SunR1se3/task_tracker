@@ -18,6 +18,27 @@ function createProject() {
     xhr.send(JSON.stringify(jsonObj));
 }
 
+function editProject() {
+    // создать объект для формы
+    let formData = new FormData(document.forms.projectEditForm);
+    let jsonObj = {}
+    formData.forEach((value, key) => {
+        jsonObj[key] = value;
+    });
+    let projectId = document.getElementById('projectContent').dataset.projectId;
+    let xhr = new XMLHttpRequest();
+    xhr.open("PUT", `/api/project/${projectId}/edit`);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onreadystatechange = function() {
+        if (this.readyState === 4) {
+            let resp = JSON.parse(xhr.responseText)
+            if (resp.status) {
+            }
+        }
+    }
+    xhr.send(JSON.stringify(jsonObj));
+}
+
 function setProjectRole(userId, select) {
     let jsonObj = {}
     jsonObj['userId'] = userId;

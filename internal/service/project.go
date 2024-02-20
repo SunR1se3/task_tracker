@@ -69,3 +69,14 @@ func (s *ProjectService) GetProjectRoles() []domain.ProjectRole {
 func (s *ProjectService) KickUserFromTeam(formData *domain.AddUserToTeamForm) error {
 	return s.repo.KickUserFromTeam(*formData.UserId, *formData.ProjectId)
 }
+
+func (s *ProjectService) EditProject(formData *domain.ProjectEditForm, id uuid.UUID) error {
+	data := new(domain.Project)
+	err := formData.Prepare(data)
+	if err != nil {
+		return err
+	}
+	data.Id = id
+	err = s.repo.EditProject(data)
+	return err
+}

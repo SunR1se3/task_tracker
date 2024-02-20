@@ -37,6 +37,12 @@ func (r *ProjectRepository) CreateProject(data *domain.Project, userId uuid.UUID
 	return err
 }
 
+func (r *ProjectRepository) EditProject(data *domain.Project) error {
+	sql := fmt.Sprintf("UPDATE %s SET title = $1, description = $2, consumer = $3, updated_at = $4 WHERE id = $5", constants.ProjectTable)
+	_, err := r.db.Exec(sql, data.Title, data.Description, data.Consumer, data.UpdatedAt, data.Id)
+	return err
+}
+
 func (r *ProjectRepository) GetProjectById(id uuid.UUID) (*domain.Project, error) {
 	data := new(domain.Project)
 	sql := fmt.Sprintf("SELECT * FROM %s WHERE id = $1", constants.ProjectTable)

@@ -23,6 +23,12 @@ type ProjectCreateForm struct {
 	Consumer    *string `json:"consumer"`
 }
 
+type ProjectEditForm struct {
+	Title       string  `json:"title"`
+	Description string  `json:"description"`
+	Consumer    *string `json:"consumer"`
+}
+
 type AddUserToTeamForm struct {
 	UserId        *uuid.UUID `json:"userId"`
 	ProjectId     *uuid.UUID `json:"projectId"`
@@ -61,5 +67,28 @@ func (f *ProjectCreateForm) Validate() error {
 	if len(f.Description) < 2 {
 		return errors.MinFieldLengthError(helper.GetJsonTag("Title", *f), 2)
 	}
+	return nil
+}
+
+func (f *ProjectEditForm) Validate() error {
+	if len(f.Title) < 2 {
+		return errors.MinFieldLengthError(helper.GetJsonTag("Title", *f), 2)
+	}
+	if len(f.Description) < 2 {
+		return errors.MinFieldLengthError(helper.GetJsonTag("Title", *f), 2)
+	}
+	return nil
+}
+
+func (f *ProjectEditForm) Prepare(m *Project) error {
+	err := f.Validate()
+	if err != nil {
+		return err
+	}
+	m.Title = f.Title
+	m.Description = f.Description
+	m.Consumer = f.Consumer
+	updTime := time.Now()
+	m.UpdatedAt = &updTime
 	return nil
 }

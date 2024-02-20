@@ -48,6 +48,7 @@ type Auth interface {
 
 type Project interface {
 	CreateProject(formData *domain.ProjectCreateForm, userId uuid.UUID) (*uuid.UUID, error)
+	EditProject(formData *domain.ProjectEditForm, id uuid.UUID) error
 	GetProjectById(id uuid.UUID) (*domain.Project, error)
 	GetProjectsUserId(userId uuid.UUID) ([]domain.Project, error)
 	AddUserToTeam(formData *domain.AddUserToTeamForm) error

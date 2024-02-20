@@ -28,6 +28,7 @@ function projectAutocomplete(data) {
                 autocompleteInput.dataset.selectedId = suggestion.id
                 suggestionsMenu.innerHTML = '';
                 setVisibilityAddButton();
+                setVisibilityClearButton();
             });
             suggestionsMenu.appendChild(listItem);
         });
@@ -67,10 +68,10 @@ function setVisibilityAddButton() {
     let addBtn = document.getElementById('addBtn');
 
     if (autocomplete.hasAttribute('data-selected-id') && addBtn.style.display === 'none') {
-        addBtn.style.display = 'block';
+        addBtn.style.display = 'inline-block';
     }
 
-    else if (!autocomplete.hasAttribute('data-selected-id') && addBtn.style.display === 'block') {
+    else if (!autocomplete.hasAttribute('data-selected-id') && addBtn.style.display === 'inline-block') {
         addBtn.style.display = 'none';
     }
 }
@@ -79,7 +80,7 @@ function setVisibilityClearButton() {
     let autocomplete = document.getElementById('autocompleteInput');
     let clearBtn = document.getElementById('clearBtn');
     if (autocomplete.value !== "") {
-        clearBtn.style.display = 'block';
+        clearBtn.style.display = 'inline-block';
     } else {
         clearBtn.style.display = 'none';
     }

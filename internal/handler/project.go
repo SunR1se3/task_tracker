@@ -27,6 +27,27 @@ func (h *Handler) CreateProject(c *fiber.Ctx) error {
 	return response.GetResponse(c, errorHandler, id)
 }
 
+func (h *Handler) EditProject(c *fiber.Ctx) error {
+	errorHandler := new(errors.ErrorHandler)
+	id, err := uuid.Parse(c.Params(constants.ParamId))
+	if err != nil {
+		errorHandler.Add(err)
+		return response.GetResponse(c, errorHandler, nil)
+	}
+	formData := new(domain.ProjectEditForm)
+	err = c.BodyParser(formData)
+	if err != nil {
+		errorHandler.Add(err)
+		return response.GetResponse(c, errorHandler, nil)
+	}
+	err = h.services.Project.EditProject(formData, id)
+	if err != nil {
+		errorHandler.Add(err)
+		return response.GetResponse(c, errorHandler, nil)
+	}
+	return response.GetResponse(c, errorHandler, nil)
+}
+
 func (h *Handler) GetMyProjects(c *fiber.Ctx) error {
 	errorHandler := new(errors.ErrorHandler)
 	userId := middleware.GetUserId(c)
