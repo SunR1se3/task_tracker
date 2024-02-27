@@ -26,6 +26,7 @@ func (h *Handler) Init(app *fiber.App) {
 	app.Get("/user/profile", aw, h.UserSettingsPage)
 	app.Get("/projects", aw, h.ProjectsPage)
 	app.Get("/projects/:"+constants.ParamId+"/settings", aw, h.ProjectSettingsPage)
+	app.Get("/projects/:"+constants.ParamId, aw, h.ConcreteProject)
 
 	admin := app.Group("admin")
 	admin.Get("/users", aw, h.AdminUsersPage)

@@ -57,3 +57,7 @@ func (h *Handler) ProjectSettingsPage(c *fiber.Ctx) error {
 		"projectRoles": projectRoles,
 	}, "pages/project/project_settings", constants.DefaultLayout)
 }
+
+func (h *Handler) ConcreteProject(c *fiber.Ctx) error {
+	return response.RenderPage(c, fiber.Map{}, "pages/project/concrete_project", constants.DefaultLayout)
+}

@@ -41,12 +41,21 @@
     margin-top: 2%;
 }
 
-.project-link .card-body {
+.sprint-card {
+    height: 240px;
+}
+
+.project-link .card-body,
+.sprint-link .card-body {
     background-color: transparent;
     transition: background-color 0.5s ease;
 }
 
 .project-link:hover .card-body {
+    background-color: rgba(0, 158, 45, 0.2);
+}
+
+.sprint-link:hover .card-body {
     background-color: rgba(0, 158, 45, 0.2);
 }
 
@@ -64,4 +73,29 @@
     width: 900px;
     height: auto;
     padding: 1%;
+}
+
+.backlog-block {
+    border-radius: 30px;
+    background-color: #131517;
+    width: 350px;
+    height: 88vh;
+    padding: 1%;
+}
+
+.urgent-block {
+    border-radius: 30px;
+    background-color: #131517;
+    width: 350px;
+    height: 88vh;
+    padding: 1%;
+}
+
+.sprints-block {
+    border-radius: 30px;
+    background-color: #131517;
+    width: 900px;
+    height: auto;
+    padding: 1%;
+    flex: 1;
 }

@@ -20,7 +20,7 @@
                         <p class="card-text">{{ $value.Description }}</p>
                         {{ if $value.Consumer }} <p class="card-text">{{ $value.Consumer }}</p> {{ end }}
                         <div class="d-flex justify-content-between mt-auto">
-                            <a href="#" class="btn btn-outline-primary">Перейти</a>
+                            <a href="/projects/{{$value.Id}}" class="btn btn-outline-primary">Перейти</a>
                             {{ if eq $value.Owner $.userId }}
                                 <a href="/projects/{{$value.Id}}/settings"><img src="../../../assets/buttons/settingsBtn.svg" alt="" width="30" height="30"></a>
                             {{ end }}
