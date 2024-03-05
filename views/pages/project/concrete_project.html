@@ -1,5 +1,7 @@
-<div class="row ms-3 d-flex">
-    <div class="backlog-block me-3 overflow-scroll">
+{{define "concrete_project"}}
+{{  template "sprint_create_modal"}}
+<div class="row ms-3 d-flex" data-project-id="{{ .projectId }}">
+    <div class="pool me-3 overflow-scroll">
         <h4 class="text-center">Бэклог</h4>
         <input type="text" class="form-control mt-3 mb-3" id="backlog-search" placeholder="Искать...">
         <button type="button" class="btn btn-outline-primary w-100">Создать задачу</button>
@@ -17,7 +19,7 @@
             </div>
         </div>
     </div>
-    <div class="urgent-block me-3 overflow-scroll">
+    <div class="pool me-3 overflow-scroll">
         <h4 class="text-center">В приоритете</h4>
         <input type="text" class="form-control mt-3 mb-3" id="urgent-search" placeholder="Искать...">
         <button type="button" class="btn btn-outline-primary w-100">Создать задачу</button>
@@ -37,38 +39,43 @@
     </div>
     <div class="sprints-block me-3">
         <h4 class="text-center">Спринты</h4>
-        <div class="d-flex">
-            <a href="" class="sprint-link mt-2" data-bs-toggle="modal" data-bs-target="#createProjectModal">
-                <div class="card sprint-card" style="width: 17rem;">
-                    <div class="card-body d-flex flex-column justify-content-center align-items-center">
-                        <img src="../../../assets/buttons/addBtn.svg" alt="" width="70" height="70">
+        <div class="d-flex flex-wrap">
+            {{ range $i, $value := .sprints }}
+                    {{ if eq $i 0 }}
+                        <a href="" class="sprint-link mt-2 me-3 mb-1" data-bs-toggle="modal" data-bs-target="#sprintCreateModal">
+                            <div class="card sprint-card" style="width: 17rem;">
+                                <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                                    <img src="../../../assets/buttons/addBtn.svg" alt="" width="70" height="70">
+                                </div>
+                            </div>
+                        </a>
+                    {{ end }}
+                    <div class="card sprint-card mt-2 me-3 mb-1" style="width: 17rem;" data-sprint-id="{{ .Id }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ .Title }}</h5>
+                            <p class="card-text lead">Готово 0/15</p>
+                            {{ if .StartDate }}
+                                <p class="card-text lead">
+                                    Старт: {{ .StartDate.Format "02.01.2006" }}
+                                </p>
+                                <p class="card-text lead">Конец: {{ .EndData.Format "02.01.2006" }}</p>
+                            {{ else }}
+                                <p class="card-text lead">Спринт еще не начался</p>
+                            {{ end }}
+                            <div class="d-flex justify-content-between mt-auto">
+                                <a href="#" class="btn btn-outline-primary">Перейти</a>
+                                <a href="#"><img src="../../../assets/buttons/settingsBtn.svg" alt="" width="30" height="30"></a>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </a>
-            <div class="card sprint-card mt-2 ms-3" style="width: 17rem;">
-                <div class="card-body">
-                    <h5 class="card-title">Спринт 1</h5>
-                    <p class="card-text lead">Готово 0/15</p>
-                    <p class="card-text lead">Старт: 27.02.2024</p>
-                    <p class="card-text lead">Конец: 15.03.2024</p>
-                    <div class="d-flex justify-content-between mt-auto">
-                        <a href="#" class="btn btn-outline-primary">Перейти</a>
-                        <a href="#"><img src="../../../assets/buttons/settingsBtn.svg" alt="" width="30" height="30"></a>
-                    </div>
-                </div>
-            </div>
-            <div class="card sprint-card mt-2 ms-3" style="width: 17rem;">
-                <div class="card-body">
-                    <h5 class="card-title">Спринт 1</h5>
-                    <p class="card-text lead">Готово 0/15</p>
-                    <p class="card-text lead">Старт: 27.02.2024</p>
-                    <p class="card-text lead">Конец: 15.03.2024</p>
-                    <div class="d-flex justify-content-between mt-auto">
-                        <a href="#" class="btn btn-outline-primary">Перейти</a>
-                        <a href="#"><img src="../../../assets/buttons/settingsBtn.svg" alt="" width="30" height="30"></a>
-                    </div>
-                </div>
-            </div>
+            {{ end }}
         </div>
+        <ul id="pagination-demo" class="pagination-sm"></ul>
+<!--        <div class="d-flex justify-content-center" id="demo">-->
+<!--        </div>-->
     </div>
 </div>
+
+<script src="../../../assets/js/project/sprints/sprints.js"></script>
+<script>sprintPagination();</script>
+{{end}}

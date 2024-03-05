@@ -13,7 +13,10 @@ const (
 	UserPositionTable       = "user_position"
 	UserSpecializationTable = "user_specialization"
 
-	ProjectTable     = "projects"
-	UserProjectTable = "user_project"
-	UserProjectRoles = "project_roles"
+	ProjectTable        = "projects"
+	UserProjectTable    = "user_project"
+	UserProjectRoles    = "project_roles"
+	ProjectSprintsTable = "project_sprints"
+
+	SprintsTable = "sprints"
 )

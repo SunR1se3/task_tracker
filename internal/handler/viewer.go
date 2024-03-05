@@ -59,5 +59,16 @@ func (h *Handler) ProjectSettingsPage(c *fiber.Ctx) error {
 }
 
 func (h *Handler) ConcreteProject(c *fiber.Ctx) error {
-	return response.RenderPage(c, fiber.Map{}, "pages/project/concrete_project", constants.DefaultLayout)
+	projectId, err := uuid.Parse(c.Params(constants.ParamId))
+	if err != nil {
+		return err
+	}
+	sprints, err := h.services.Sprint.GetProjectSprints(projectId)
+	if err != nil {
+		return err
+	}
+	return response.RenderPage(c, fiber.Map{
+		"projectId": projectId,
+		"sprints":   sprints,
+	}, "concrete_project", constants.DefaultLayout)
 }

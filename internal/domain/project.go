@@ -47,6 +47,11 @@ type Teammate struct {
 	ProjectRole    *ProjectRole `json:"projectRole" db:"projectRole"`
 }
 
+type ProjectPool struct {
+	ProjectId uuid.UUID `json:"projectId" db:"project_id"`
+	PoolId    uuid.UUID `json:"poolId" db:"pool_id"`
+}
+
 func (f *ProjectCreateForm) Prepare(m *Project) error {
 	err := f.Validate()
 	if err != nil {

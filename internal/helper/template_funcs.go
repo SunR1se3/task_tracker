@@ -3,7 +3,10 @@ package helper
 import "html/template"
 
 func GetFunMap() template.FuncMap {
-	return map[string]interface{}{"N": Iterator}
+	return map[string]interface{}{
+		"N":   Iterator,
+		"mod": Mod,
+	}
 }
 
 func Iterator(start, end int) (stream chan int) {
@@ -15,4 +18,8 @@ func Iterator(start, end int) (stream chan int) {
 		close(stream)
 	}()
 	return
+}
+
+func Mod(a, b int) int {
+	return a % b
 }

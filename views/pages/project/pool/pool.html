@@ -1,0 +1,20 @@
+{{ range .pools }}
+    <div class="pool me-3 overflow-scroll" data-pool-id="{{ $.Id }}">
+        <h4 class="text-center">{{ $.Title }}</h4>
+        <input type="text" class="form-control mt-3 mb-3" id="backlog-search" placeholder="Искать...">
+        <button type="button" class="btn btn-outline-primary w-100">Создать задачу</button>
+        <div class="card mt-3 mb-3" style="width: auto;">
+            <div class="card-body">
+                <p class="card-title lead">Неверное отображение в счётчике у папки "В дело"</p>
+                <h6 class="card-subtitle mb-2">
+                    <span class="badge rounded-pill text-bg-danger">Баг</span>
+                    <span class="badge rounded-pill text-bg-primary">Фронтенд</span>
+                    <span class="badge rounded-pill text-bg-success">Бекенд</span>
+                </h6>
+                <p class="card-text text-truncate">
+                    У папки "В дело" в счётчике на всех аккаунтах отображается такое же количество как и в папке "Отправленные", хотя она пустая.
+                </p>
+            </div>
+        </div>
+    </div>
+{{ end }}

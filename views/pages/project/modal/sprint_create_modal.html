@@ -1,0 +1,30 @@
+{{define "sprint_create_modal"}}
+<!-- Модальное окно создания пользователя -->
+<div class="modal fade" id="sprintCreateModal" tabindex="-1" aria-labelledby="sprintCreateModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="sprintCreateModalLabel">Создание спринта</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+            <div class="modal-body">
+                <form class="needs-validation" id="sprintCreateForm" name="sprintCreateForm" novalidate>
+                    <div class="form-group pb-3">
+                        <div class="row">
+                            <div class="col-sm">
+                                <label for="title">Название</label>
+                                <input type="text" class="form-control" id="title" name="title">
+                                <div class="invalid-feedback" id="invalidFeedbackTitle" data-err-field-name="title"></div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-outline-success" onclick="createSprint()">Добавить</button>
+            </div>
+        </div>
+    </div>
+</div>
+{{end}}

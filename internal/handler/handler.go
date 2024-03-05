@@ -60,6 +60,9 @@ func (h *Handler) Init(app *fiber.App) {
 	project.Post("/add_to_team", aw, h.AddUserToTeam)
 	project.Put("/kick_from_team", aw, h.KickUserFromTeam)
 
+	sprint := api.Group("sprint")
+	sprint.Post("/:"+constants.ParamId, aw, h.CreateSprint)
+
 	auth := api.Group("auth")
 	auth.Post("/login", h.Auth)
 	auth.Get("/logout", h.Logout)

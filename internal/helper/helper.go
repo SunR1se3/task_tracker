@@ -23,16 +23,10 @@ func GetEntityData(data any) ([]string, []any) {
 	}
 	return fields, values
 }
-
 func HtmlRenderProcess(templatePath, templateName string, data map[string]interface{}) (*string, error) {
 	var tpl *template.Template
 
 	tpl = template.Must(template.ParseFiles(templatePath))
-	tpl.Funcs(template.FuncMap{
-		"stringEq": func(s1, s2 string) bool {
-			return s1 == s2
-		},
-	})
 	buf := new(bytes.Buffer)
 	err := tpl.ExecuteTemplate(buf, templateName, data)
 	if err != nil {
@@ -41,6 +35,24 @@ func HtmlRenderProcess(templatePath, templateName string, data map[string]interf
 	html := buf.String()
 	return &html, nil
 }
+
+//func HtmlRenderProcess(templatePath, templateName string, data map[string]interface{}) (*string, error) {
+//	tpl, err := template.New(templateName).Funcs(template.FuncMap{
+//		"Mod": func(a, b int) int {
+//			return a % b
+//		},
+//	}).Parse(templatePath)
+//	if err != nil {
+//		return nil, nil
+//	}
+//	buf := new(bytes.Buffer)
+//	err = tpl.ExecuteTemplate(buf, templateName, data)
+//	if err != nil {
+//		return nil, err
+//	}
+//	html := buf.String()
+//	return &html, nil
+//}
 
 func GetJsonTag(fieldName string, obj any) string {
 	objType := reflect.TypeOf(obj)

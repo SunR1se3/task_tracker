@@ -58,6 +58,12 @@ type Project interface {
 	KickUserFromTeam(formData *domain.AddUserToTeamForm) error
 }
 
+type Sprint interface {
+	CreateSprint(formData *domain.SprintCreateForm, projectId uuid.UUID) (*uuid.UUID, error)
+	GetSprintById(id uuid.UUID) (*domain.Sprint, error)
+	GetProjectSprints(projectId uuid.UUID) ([]domain.Sprint, error)
+}
+
 type Service struct {
 	CRUD
 	Department
@@ -66,6 +72,7 @@ type Service struct {
 	User
 	Auth
 	Project
+	Sprint
 }
 
 func NewService(r *repository.Repository) *Service {
@@ -77,5 +84,6 @@ func NewService(r *repository.Repository) *Service {
 		User:           NewUserService(r.User),
 		Auth:           NewAuthService(r.User),
 		Project:        NewProjectService(r.Project),
+		Sprint:         NewSprintService(r.Sprint),
 	}
 }

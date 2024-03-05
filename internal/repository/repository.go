@@ -52,6 +52,12 @@ type Project interface {
 	KickUserFromTeam(userId, projectId uuid.UUID) error
 }
 
+type Sprint interface {
+	CreateSprint(data *domain.Sprint, projectId uuid.UUID) error
+	GetSprintById(id uuid.UUID) (*domain.Sprint, error)
+	GetProjectSprints(projectId uuid.UUID) ([]domain.Sprint, error)
+}
+
 type Repository struct {
 	CRUD
 	Position
@@ -59,6 +65,7 @@ type Repository struct {
 	Specialization
 	User
 	Project
+	Sprint
 }
 
 func NewRepository(db *sqlx.DB) *Repository {
@@ -69,5 +76,6 @@ func NewRepository(db *sqlx.DB) *Repository {
 		Specialization: NewSpecializationRepository(db),
 		User:           NewUserRepository(db),
 		Project:        NewProjectRepository(db),
+		Sprint:         NewSprintRepository(db),
 	}
 }

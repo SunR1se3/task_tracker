@@ -19,4 +19,9 @@ CREATE TABLE IF NOT EXISTS project_roles (
     id uuid NOT NULL,
     title VARCHAR(100) NOT NULL,
     PRIMARY KEY(id)
-)
+);
+
+CREATE TABLE IF NOT EXISTS project_sprints (
+    project_id uuid NOT NULL,
+    sprint_id uuid NOT NULL
+);
