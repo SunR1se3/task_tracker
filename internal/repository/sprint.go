@@ -54,6 +54,11 @@ func (r *SprintRepository) GetProjectSprints(params domain.SprintParams) ([]doma
 	if wherePart != "" {
 		sql += "WHERE " + wherePart
 	}
+	if *params.CreatedAtOrder == 0 {
+		sql += " ORDER BY s.created_at desc"
+	} else {
+		sql += " ORDER BY s.created_at"
+	}
 
 	sql += " LIMIT :limit OFFSET :offset"
 	query, args, err := sqlx.Named(sql, mapParams)
@@ -66,6 +71,9 @@ func (r *SprintRepository) sprintFilter(params domain.SprintParams) (string, map
 	whereParts := []string{}
 	if params.ProjectId != nil {
 		whereParts = append(whereParts, "ps.project_id = :projectId")
+	}
+	if params.Title != nil {
+		whereParts = append(whereParts, "s.title ILIKE :title")
 	}
 	return strings.Join(whereParts, " and "), params.PrepareParams()
 }

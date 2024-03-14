@@ -23,11 +23,11 @@
         <div class="row">
             <h4 class="text-center">Спринты</h4>
             <div class="col-3 me-3">
-                <input type="text" class="form-control" id="sprintsSearch" placeholder="Искать...">
+                <input type="text" class="form-control" id="sprintTitle" placeholder="Искать..." oninput="updateSprintCards(1)">
             </div>
             <div class="col-2">
-                <select class="form-select">
-                    <option selected>Сначала новые</option>
+                <select class="form-select" id="sprintsOrder" onchange="updateSprintCards(1)">
+                    <option selected value="0">Сначала новые</option>
                     <option value="1">Сначала старые</option>
                 </select>
             </div>

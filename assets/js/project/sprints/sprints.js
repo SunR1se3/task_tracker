@@ -47,8 +47,17 @@ function resetErrors() {
 function getProjectSprintCards(page) {
     return new Promise((resolve, reject) => {
         let projectId = document.querySelector('[data-project-id]').dataset.projectId;
+        let orderBy  = document.getElementById('sprintsOrder').value;
+        let sprintTitle  = document.getElementById('sprintTitle').value;
+        let queryRequest = `?projectId=${projectId}&offset=${page}&createdAtOrder=${orderBy}`;
+        console.log(sprintTitle);
+        if (sprintTitle) {
+            if (sprintTitle.trim() !== "") {
+                queryRequest += `&title=${sprintTitle}`;
+            }
+        }
         let xhr = new XMLHttpRequest();
-        xhr.open("GET", `/project/sprint_cards?projectId=${projectId}&offset=${page}`);
+        xhr.open("GET", `/project/sprint_cards` + queryRequest);
         xhr.onreadystatechange = function () {
             if (this.readyState === 4) {
                 let resp = JSON.parse(xhr.responseText);
@@ -61,6 +70,10 @@ function getProjectSprintCards(page) {
         }
         xhr.send();
     });
+}
+
+function reorderSprints(e) {
+
 }
 
 function updateSprintCards(page) {

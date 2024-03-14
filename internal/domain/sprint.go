@@ -24,9 +24,11 @@ type SprintResponse struct {
 }
 
 type SprintParams struct {
-	ProjectId *uuid.UUID `json:"projectId"`
-	Limit     *int       `json:"limit"`
-	Offset    *int       `json:"offset"`
+	ProjectId      *uuid.UUID `json:"projectId"`
+	CreatedAtOrder *int       `json:"createdAtOrder"`
+	Title          *string    `json:"title"`
+	Limit          *int       `json:"limit"`
+	Offset         *int       `json:"offset"`
 }
 
 func (p *SprintParams) PrepareParams() map[string]interface{} {
@@ -40,6 +42,15 @@ func (p *SprintParams) PrepareParams() map[string]interface{} {
 	if p.ProjectId != nil {
 		data["projectId"] = p.ProjectId
 	}
+	if p.CreatedAtOrder != nil {
+		data["orderBy"] = p.CreatedAtOrder
+	} else {
+		data["orderBy"] = 0
+	}
+	if p.Title != nil {
+		data["title"] = "%" + *p.Title + "%"
+	}
+
 	return data
 }
 
