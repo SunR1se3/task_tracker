@@ -61,7 +61,8 @@ type Project interface {
 type Sprint interface {
 	CreateSprint(formData *domain.SprintCreateForm, projectId uuid.UUID) (*uuid.UUID, error)
 	GetSprintById(id uuid.UUID) (*domain.Sprint, error)
-	GetProjectSprints(projectId uuid.UUID) ([]domain.Sprint, error)
+	GetProjectSprints(params domain.SprintParams) (*domain.SprintResponse, error)
+	GetProjectSprintCards(params domain.SprintParams) (*string, error)
 }
 
 type Service struct {

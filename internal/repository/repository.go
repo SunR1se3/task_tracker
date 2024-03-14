@@ -55,7 +55,7 @@ type Project interface {
 type Sprint interface {
 	CreateSprint(data *domain.Sprint, projectId uuid.UUID) error
 	GetSprintById(id uuid.UUID) (*domain.Sprint, error)
-	GetProjectSprints(projectId uuid.UUID) ([]domain.Sprint, error)
+	GetProjectSprints(params domain.SprintParams) ([]domain.Sprint, error)
 }
 
 type Repository struct {

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
+	"strings"
 	"task_tracker/internal/constants"
 	"task_tracker/internal/domain"
 )
@@ -44,12 +45,27 @@ func (r *SprintRepository) GetSprintById(id uuid.UUID) (*domain.Sprint, error) {
 	return data, err
 }
 
-func (r *SprintRepository) GetProjectSprints(projectId uuid.UUID) ([]domain.Sprint, error) {
+func (r *SprintRepository) GetProjectSprints(params domain.SprintParams) ([]domain.Sprint, error) {
 	data := []domain.Sprint{}
-	sql := fmt.Sprintf("SELECT s.* FROM %s s "+
+	sql := fmt.Sprintf("SELECT count(*) OVER() AS total, s.* FROM %s s "+
 		"LEFT JOIN %s ps "+
-		"ON ps.sprint_id = s.id "+
-		"WHERE ps.project_id = $1", constants.SprintsTable, constants.ProjectSprintsTable)
-	err := r.db.Select(&data, sql, projectId)
+		"ON ps.sprint_id = s.id ", constants.SprintsTable, constants.ProjectSprintsTable)
+	wherePart, mapParams := r.sprintFilter(params)
+	if wherePart != "" {
+		sql += "WHERE " + wherePart
+	}
+
+	sql += " LIMIT :limit OFFSET :offset"
+	query, args, err := sqlx.Named(sql, mapParams)
+	query = r.db.Rebind(query)
+	err = r.db.Select(&data, query, args...)
 	return data, err
+}
+
+func (r *SprintRepository) sprintFilter(params domain.SprintParams) (string, map[string]interface{}) {
+	whereParts := []string{}
+	if params.ProjectId != nil {
+		whereParts = append(whereParts, "ps.project_id = :projectId")
+	}
+	return strings.Join(whereParts, " and "), params.PrepareParams()
 }

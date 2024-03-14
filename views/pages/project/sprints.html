@@ -1,0 +1,45 @@
+{{define "sprint_cards"}}
+<div class="d-flex flex-wrap" id="sprintCards">
+    {{ if or (eq .data.Sprints nil) (eq (len .data.Sprints) 0) }}
+        <a href="" class="sprint-link mt-2 me-3 mb-1" data-bs-toggle="modal" data-bs-target="#sprintCreateModal">
+            <div class="card sprint-card" style="width: 17rem;">
+                <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                    <img src="../../../assets/buttons/addBtn.svg" alt="" width="70" height="70">
+                </div>
+            </div>
+        </a>
+    {{ end }}
+    {{ range $i, $v := .data.Sprints }}
+        {{ if eq $i 0 }}
+            <a href="" class="sprint-link mt-2 me-3 mb-1" data-bs-toggle="modal" data-bs-target="#sprintCreateModal">
+                <div class="card sprint-card" style="width: 17rem;">
+                    <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                        <img src="../../../assets/buttons/addBtn.svg" alt="" width="70" height="70">
+                    </div>
+                </div>
+            </a>
+        {{ end }}
+        <div class="card sprint-card mt-2 me-3 mb-1" style="width: 17rem;" data-sprint-id="{{ .Id }}">
+            <div class="card-body">
+                <h5 class="card-title">{{ $v.Title }}</h5>
+                <p class="card-text">Готово 0/15</p>
+                {{ if $v.StartDate }}
+                    <p class="card-text">
+                        Старт: {{ $v.StartDate.Format "02.01.2006" }}
+                    </p>
+                    <p class="card-text">Конец: {{ $v.EndDate.Format "02.01.2006" }}</p>
+                {{ else }}
+                    <p class="card-text">Спринт еще не начался</p>
+                {{ end }}
+                <div class="d-flex justify-content-between mt-auto">
+                    <a href="#" class="btn btn-outline-primary">Перейти</a>
+                    <a href="#"><img src="../../../assets/buttons/settingsBtn.svg" alt="" width="30" height="30"></a>
+                </div>
+            </div>
+        </div>
+    {{ end }}
+</div>
+<script>
+    console.log(document.querySelectorAll('[data-bs-toggle="popover"]'));
+</script>
+{{end}}

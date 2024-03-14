@@ -2,6 +2,7 @@ package domain
 
 import (
 	"github.com/google/uuid"
+	"task_tracker/internal/constants"
 	"task_tracker/internal/errors"
 	"task_tracker/internal/helper"
 	"time"
@@ -14,6 +15,32 @@ type Sprint struct {
 	EndDate   *time.Time `json:"endDate" db:"end_date"`
 	CreatedAt time.Time  `json:"createdAt" db:"created_at"`
 	UpdatedAt *time.Time `json:"updatedAt" db:"updated_at"`
+	Total     *int       `json:"total" db:"total"`
+}
+
+type SprintResponse struct {
+	Sprints []Sprint `json:"sprints"`
+	Total   int      `json:"total"`
+}
+
+type SprintParams struct {
+	ProjectId *uuid.UUID `json:"projectId"`
+	Limit     *int       `json:"limit"`
+	Offset    *int       `json:"offset"`
+}
+
+func (p *SprintParams) PrepareParams() map[string]interface{} {
+	data := make(map[string]interface{})
+	if p.Offset != nil {
+		data["offset"] = (*p.Offset - 1) * constants.LimitOfSprints
+	} else {
+		data["offset"] = 0
+	}
+	data["limit"] = constants.LimitOfSprints
+	if p.ProjectId != nil {
+		data["projectId"] = p.ProjectId
+	}
+	return data
 }
 
 type SprintCreateForm struct {

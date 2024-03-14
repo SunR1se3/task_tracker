@@ -15,6 +15,7 @@ function createSprint() {
             let resp = JSON.parse(xhr.responseText)
             if (resp.status) {
                 bootstrap.Modal.getInstance(document.getElementById('sprintCreateModal')).hide();
+                updateSprintCards(1);
             } else {
                 setErrors(resp.errors);
             }
@@ -23,7 +24,7 @@ function createSprint() {
     xhr.send(JSON.stringify(jsonObj));
 }
 
-function setErrors(errs) {
+function setErrors(errs){
     for (let i = 0; i < errs.length; i++) {
         let errBlocks = document.querySelectorAll('[data-err-field-name]');
         errBlocks.forEach((item) => {
@@ -43,14 +44,45 @@ function resetErrors() {
     })
 }
 
-function sprintPagination() {
-    $('#pagination-demo').twbsPagination({
-        totalPages: 16,
-        visiblePages: 6,
-        next: 'Next',
-        prev: 'Prev',
-        onPageClick: function (event, page) {
-            $('#page-content').text('Page ' + page) + ' content here';
+function getProjectSprintCards(page) {
+    return new Promise((resolve, reject) => {
+        let projectId = document.querySelector('[data-project-id]').dataset.projectId;
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", `/project/sprint_cards?projectId=${projectId}&offset=${page}`);
+        xhr.onreadystatechange = function () {
+            if (this.readyState === 4) {
+                let resp = JSON.parse(xhr.responseText);
+                if (resp.status) {
+                    resolve(resp.data);
+                } else {
+                    reject(new Error("Ошибка запроса"));
+                }
+            }
         }
+        xhr.send();
     });
 }
+
+function updateSprintCards(page) {
+    getProjectSprintCards(page)
+        .then(data => {
+            let sprintCards = document.getElementById('sprintCards');
+            sprintCards.innerHTML = data;
+        })
+        .catch(error => {
+            console.error(error);
+        });
+}
+
+$('#pagination-demo').twbsPagination({
+    totalPages: 12,
+    visiblePages: 7,
+    first: 'В начало',
+    last: 'В конец',
+    next: false,
+    prev: false,
+    onPageClick: function (event, page) {
+        updateSprintCards(page);
+    }
+});
+

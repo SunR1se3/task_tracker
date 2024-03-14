@@ -29,3 +29,19 @@ func (h *Handler) CreateSprint(c *fiber.Ctx) error {
 	}
 	return response.GetResponse(c, errorHandler, id)
 }
+
+func (h *Handler) GetProjectSprints(c *fiber.Ctx) error {
+	errorHandler := new(errors.ErrorHandler)
+	params := new(domain.SprintParams)
+	err := c.QueryParser(params)
+	if err != nil {
+		errorHandler.Add(err)
+		return response.GetResponse(c, errorHandler, nil)
+	}
+	data, err := h.services.GetProjectSprints(*params)
+	if err != nil {
+		errorHandler.Add(err)
+		return response.GetResponse(c, errorHandler, nil)
+	}
+	return response.GetResponse(c, errorHandler, data)
+}

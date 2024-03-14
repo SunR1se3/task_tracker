@@ -42,7 +42,7 @@
 }
 
 .sprint-card {
-    height: 240px;
+    height: 227px;
 }
 
 .project-link .card-body,
@@ -86,8 +86,7 @@
 .sprints-block {
     border-radius: 30px;
     background-color: #131517;
-    width: 900px;
-    height: auto;
+    height: 88vh;
     padding: 1%;
     flex: 1;
 }

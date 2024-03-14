@@ -4,6 +4,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 	"task_tracker/internal/constants"
+	"task_tracker/internal/domain"
 	"task_tracker/internal/errors"
 	"task_tracker/internal/middleware"
 	"task_tracker/internal/response"
@@ -59,16 +60,30 @@ func (h *Handler) ProjectSettingsPage(c *fiber.Ctx) error {
 }
 
 func (h *Handler) ConcreteProject(c *fiber.Ctx) error {
+	errorHandler := new(errors.ErrorHandler)
 	projectId, err := uuid.Parse(c.Params(constants.ParamId))
 	if err != nil {
-		return err
-	}
-	sprints, err := h.services.Sprint.GetProjectSprints(projectId)
-	if err != nil {
-		return err
+		errorHandler.Add(err)
+		return response.GetResponse(c, errorHandler, nil)
 	}
 	return response.RenderPage(c, fiber.Map{
 		"projectId": projectId,
-		"sprints":   sprints,
 	}, "concrete_project", constants.DefaultLayout)
+}
+
+func (h *Handler) GetSprintCards(c *fiber.Ctx) error {
+	errorHandler := new(errors.ErrorHandler)
+	params := new(domain.SprintParams)
+	err := c.QueryParser(params)
+	if err != nil {
+		errorHandler.Add(err)
+		return response.GetResponse(c, errorHandler, nil)
+	}
+
+	sprintCards, err := h.services.Sprint.GetProjectSprintCards(*params)
+	if err != nil {
+		errorHandler.Add(err)
+		return response.GetResponse(c, errorHandler, nil)
+	}
+	return response.GetResponse(c, errorHandler, sprintCards)
 }

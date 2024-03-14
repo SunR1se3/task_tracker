@@ -27,6 +27,7 @@ func (h *Handler) Init(app *fiber.App) {
 	app.Get("/projects", aw, h.ProjectsPage)
 	app.Get("/projects/:"+constants.ParamId+"/settings", aw, h.ProjectSettingsPage)
 	app.Get("/projects/:"+constants.ParamId, aw, h.ConcreteProject)
+	app.Get("/project/sprint_cards", h.GetSprintCards)
 
 	admin := app.Group("admin")
 	admin.Get("/users", aw, h.AdminUsersPage)
@@ -62,6 +63,7 @@ func (h *Handler) Init(app *fiber.App) {
 
 	sprint := api.Group("sprint")
 	sprint.Post("/:"+constants.ParamId, aw, h.CreateSprint)
+	sprint.Get("/", aw, h.GetProjectSprints)
 
 	auth := api.Group("auth")
 	auth.Post("/login", h.Auth)
